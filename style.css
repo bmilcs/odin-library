@@ -24,6 +24,39 @@ body {
   background-image: linear-gradient(to right, #ff9966, #ff5e62);
 }
 
+/* 
+header
+*/
+
+header {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  align-items: center;
+
+  padding-inline: 1rem;
+
+  background: var(--bg-transparent);
+  color: var(--clr-neutral-100);
+}
+
+header > button {
+  color: var(--clr-neutral-900);
+  background: var(--clr-neutral-100);
+
+  transition: background 0.2s ease-in-out;
+}
+
+header > button:focus,
+header > button:hover {
+  background: var(--clr-neutral-900);
+  color: var(--clr-neutral-100);
+  transition: all 0.2s ease-in-out;
+}
+
+/*
+book cards
+*/
+
 .card {
   background: var(--clr-neutral-100);
   max-width: 40ch;
@@ -57,32 +90,95 @@ p + p {
   font-size: 0.875rem;
 }
 
-header {
-  display: grid;
-  grid-template-columns: 1fr max-content;
-  align-items: center;
+/*
+add book modal form
+*/
 
-  padding-inline: 1rem;
+section.modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
-  background: var(--bg-transparent);
-  color: var(--clr-neutral-100);
+  padding: 0;
+  margin: 0;
+
+  background-color: var(--clr-neutral-100);
+  border-radius: var(--border-radius);
 }
 
-header > button {
+.modal-header {
+  display: flex;
+  align-items: center;
+
+  padding: 1rem;
+  height: 3rem;
+
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+
+  background: var(--clr-neutral-900);
+  color: var(--clr-neutral-100);
+
+  font-weight: 600;
+}
+
+.modal form {
+  padding: 1rem;
+}
+
+.input-container {
+  margin-bottom: 1rem;
+}
+
+.modal label:not(.checkbox) {
+  font-weight: 600;
+  display: block;
+}
+
+.modal input {
+  padding: 0.5rem 0.5rem;
+  margin-top: 0.25rem;
+
+  border-radius: var(--border-radius);
+  border: 1px solid var(--bg-transparent);
+}
+
+.modal input[type="number"] {
+  width: 15ch;
+}
+
+input::placeholder {
+  color: var(--bg-transparent);
+}
+
+.modal .checkbox-container {
+  padding-block: 1rem;
+}
+
+.modal button {
+  margin-top: 1rem;
+  margin-left: auto;
+  background: var(--clr-neutral-900);
+  color: var(--clr-neutral-100);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.modal button:focus,
+.modal button:hover {
+  background: var(--clr-neutral-100);
+  color: var(--clr-neutral-900);
+  text-decoration: underline;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/*
+global properties
+*/
+
+button {
+  display: block;
   padding: 0.75rem 1.5rem;
   border-radius: var(--border-radius);
   border: none;
-
-  font-weight: bold;
-  color: var(--clr-neutral-900);
-  background: var(--clr-neutral-100);
-
-  transition: background 0.2s ease-in-out;
-}
-
-header > button:focus,
-header > button:hover {
-  background: var(--clr-neutral-900);
-  color: var(--clr-neutral-100);
-  transition: all 0.2s ease-in-out;
+  font-weight: 600;
 }
