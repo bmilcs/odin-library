@@ -11,7 +11,13 @@
 :root {
   --ff-main: "Inter", sans-serif;
   --box-shadow: 6px 6px 8px hsla(0, 0%, 0%, 0.1);
+  --border-radius: 8px;
+  --clr-neutral-100: hsl(0, 0%, 95%);
+  --clr-neutral-900: hsl(0, 0%, 15%);
+  --bg-transparent: hsl(0, 0%, 9%, 25%);
+
   font-family: var(--ff-main);
+  color: var(--clr-neutral-900);
 }
 
 body {
@@ -19,14 +25,22 @@ body {
 }
 
 .card {
-  background: white;
+  background: var(--clr-neutral-100);
   max-width: 40ch;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   padding: 1rem;
   margin: 2rem;
 
-  border-bottom: 4px solid black;
+  border-bottom: calc(var(--border-radius) * 2) solid var(--bg-transparent);
   box-shadow: var(--box-shadow);
+
+  transition: scale 0.2s ease-in-out;
+}
+
+.card:focus,
+.card:hover {
+  scale: 1.05;
+  transition: scale 0.2s ease-in-out;
 }
 
 .card > h2 {
@@ -41,4 +55,34 @@ body {
 
 p + p {
   font-size: 0.875rem;
+}
+
+header {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  align-items: center;
+
+  padding-inline: 1rem;
+
+  background: var(--bg-transparent);
+  color: var(--clr-neutral-100);
+}
+
+header > button {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  border: none;
+
+  font-weight: bold;
+  color: var(--clr-neutral-900);
+  background: var(--clr-neutral-100);
+
+  transition: background 0.2s ease-in-out;
+}
+
+header > button:focus,
+header > button:hover {
+  background: var(--clr-neutral-900);
+  color: var(--clr-neutral-100);
+  transition: all 0.2s ease-in-out;
 }
