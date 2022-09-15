@@ -1,7 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap");
+
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+:root {
+  --ff-main: "Inter", sans-serif;
+  --box-shadow: 6px 6px 8px hsla(0, 0%, 0%, 0.1);
+  font-family: var(--ff-main);
+}
+
+body {
+  background-image: linear-gradient(to right, #ff9966, #ff5e62);
+}
+
+.card {
+  background: white;
+  max-width: 40ch;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 2rem;
+
+  border-bottom: 4px solid black;
+  box-shadow: var(--box-shadow);
+}
+
+.card > h2 {
+  line-height: 1em;
+  display: relative;
+}
+
+.card > p:first-of-type {
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+p + p {
+  font-size: 0.875rem;
 }
