@@ -48,6 +48,13 @@ document.querySelector(".btn-add-book").addEventListener("click", () => {
   }
 });
 
+// Escape Key: Hide Add Book Modal
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    modal.classList.remove("visible");
+  }
+});
+
 // Sample data
 addBookToLibrary(
   "The Oz Principle",
