@@ -1,4 +1,6 @@
 const modal = document.querySelector(".modal");
+const modalForm = document.getElementById("modal-form");
+const modalBookTitle = document.getElementById("book-title");
 
 let myLibrary = [];
 
@@ -36,26 +38,52 @@ function displayAllBooks() {
 
     document.querySelector("body").appendChild(card);
   });
+  debugger;
 }
 
-// Add Book Button
+//
+// Modal Form Submission: Add Book to Array & Display on the page
+//
+
+modalForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  titleValue = document.getElementById("book-title").value;
+  authorValue = document.getElementById("book-author").value;
+  pagesValue = document.getElementById("book-page-count").value;
+  readStatusValue = document.getElementById("book-read-status").value;
+
+  addBookToLibrary(titleValue, authorValue, pagesValue, readStatusValue);
+
+  displayAllBooks();
+});
+
+//
+// Header Button: Add Book, Shows Modal
+//
+
 document.querySelector(".btn-add-book").addEventListener("click", () => {
+  // remove hidden visibility, which prevents the css animation on page's first load
   modal.style.visibility = "visible";
+
   if (modal.classList.contains("visible")) {
     modal.classList.remove("visible");
   } else {
     modal.classList.add("visible");
+    modalBookTitle.focus();
   }
 });
 
-// Escape Key: Hide Add Book Modal
+//
+// Keyboard: Esc to Hide "Add Book" Modal
+//
+
 window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    modal.classList.remove("visible");
-  }
+  if (e.key === "Escape") modal.classList.remove("visible");
 });
 
+//
 // Sample data
+//
 addBookToLibrary(
   "The Oz Principle",
   "Roger Connors, Tom Smith, Craig Hickman",
