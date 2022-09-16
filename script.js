@@ -1,6 +1,7 @@
+const modal = document.querySelector(".modal");
+
 let myLibrary = [];
 
-// constructor function
 function Book(title, author, pages, readStatus) {
   this.title = title;
   this.author = author;
@@ -37,6 +38,17 @@ function displayAllBooks() {
   });
 }
 
+// Add Book Button
+document.querySelector(".btn-add-book").addEventListener("click", () => {
+  modal.style.visibility = "visible";
+  if (modal.classList.contains("visible")) {
+    modal.classList.remove("visible");
+  } else {
+    modal.classList.add("visible");
+  }
+});
+
+// Sample data
 addBookToLibrary(
   "The Oz Principle",
   "Roger Connors, Tom Smith, Craig Hickman",
