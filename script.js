@@ -1,9 +1,8 @@
 const modal = document.querySelector(".modal");
 const modalForm = document.getElementById("modal-form");
-const modalBookTitle = document.getElementById("book-title");
+const myLibrary = [];
 
-let myLibrary = [];
-
+// Constructor Function
 function Book(title, author, pages, readStatus) {
   this.title = title;
   this.author = author;
@@ -18,27 +17,35 @@ function addBookToLibrary(title, author, pages, readStatus) {
 function displayAllBooks() {
   // Loop through array & display each book on the page
   myLibrary.forEach((book) => {
+    // Create elements for each book key:value pair
     let card = document.createElement("div"),
       cardTitle = document.createElement("h2"),
       cardAuthor = document.createElement("p"),
       cardPages = document.createElement("p"),
       cardReadStatus = document.createElement("p");
 
+    // Add .card for CSS styling
     card.classList.add("card");
 
+    // Populate newly created elements with each key value
     cardTitle.textContent = book.title;
     cardAuthor.textContent = book.author;
     cardPages.textContent = book.pages;
-    cardReadStatus.textContent = book.readStatus;
 
+    // Convert boolean to human readable format
+    book.readStatus === 1
+      ? (cardReadStatus.textContent = "Read")
+      : (cardReadStatus.textContent = "Unread");
+
+    // Assemble final card
     card.appendChild(cardTitle);
     card.appendChild(cardAuthor);
     card.appendChild(cardPages);
     card.appendChild(cardReadStatus);
 
+    // Add card to body
     document.querySelector("body").appendChild(card);
   });
-  debugger;
 }
 
 //
@@ -46,23 +53,30 @@ function displayAllBooks() {
 //
 
 modalForm.addEventListener("submit", (e) => {
+  // prevent form submission
   e.preventDefault();
+
+  // assign input values to variables
   titleValue = document.getElementById("book-title").value;
   authorValue = document.getElementById("book-author").value;
   pagesValue = document.getElementById("book-page-count").value;
   readStatusValue = document.getElementById("book-read-status").value;
 
+  // append values to myLibrary array
   addBookToLibrary(titleValue, authorValue, pagesValue, readStatusValue);
 
+  // create cards & display it to the page
+  // TODO: fix - duplicates entire library on each add
   displayAllBooks();
 });
 
 //
-// Header Button: Add Book, Shows Modal
+// Header Button: Add Book > Shows Modal
 //
 
 document.querySelector(".btn-add-book").addEventListener("click", () => {
-  // remove hidden visibility, which prevents the css animation on page's first load
+  // hidden by default to prevent the modal from being visible
+  // on first load of the page due to css animation effect
   modal.style.visibility = "visible";
 
   if (modal.classList.contains("visible")) {
@@ -82,8 +96,9 @@ window.addEventListener("keydown", (e) => {
 });
 
 //
-// Sample data
+// Sample data: Testing purposes
 //
+
 addBookToLibrary(
   "The Oz Principle",
   "Roger Connors, Tom Smith, Craig Hickman",
