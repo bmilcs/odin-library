@@ -1,5 +1,6 @@
 const modal = document.querySelector(".modal");
 const modalForm = document.getElementById("modal-form");
+const modalBookTitle = document.getElementById("book-title");
 const myLibrary = [];
 
 // Constructor Function
@@ -75,15 +76,11 @@ modalForm.addEventListener("submit", (e) => {
 //
 
 document.querySelector(".btn-add-book").addEventListener("click", () => {
-  // hidden by default to prevent the modal from being visible
-  // on first load of the page due to css animation effect
-  modal.style.visibility = "visible";
-
-  if (modal.classList.contains("visible")) {
-    modal.classList.remove("visible");
-  } else {
-    modal.classList.add("visible");
+  if (modal.classList.contains("hidden")) {
+    modal.classList.remove("hidden");
     modalBookTitle.focus();
+  } else {
+    modal.classList.add("hidden");
   }
 });
 
@@ -92,7 +89,7 @@ document.querySelector(".btn-add-book").addEventListener("click", () => {
 //
 
 window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") modal.classList.remove("visible");
+  if (e.key === "Escape") modal.classList.add("hidden");
 });
 
 //
