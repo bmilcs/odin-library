@@ -1,14 +1,17 @@
 const modal = document.querySelector(".modal-container"),
   form = document.getElementById("modal-form"),
+  formTitleBar = document.querySelector(".modal-header"),
+  formSubmitBtn = document.querySelector(".modal button"),
   titleInput = document.getElementById("book-title"),
   authorInput = document.getElementById("book-author"),
   pagesInput = document.getElementById("book-page-count"),
   readStatusInput = document.getElementById("book-read-status"),
   bookGrid = document.querySelector(".book-grid");
 
+// myLibrary: Stores book details, html elements & methods
 let myLibrary = [];
 
-// Constructor Function
+// Book Object Constructor Function
 function Book(title, author, pages, readStatus) {
   this.title = title;
   this.author = author;
@@ -23,9 +26,7 @@ Book.prototype.removeBook = function () {
     this.card.remove();
   }, 200);
 
-  // Find index of book within myLibrary array. Why?
-  // this.domIndex doesn't match the index within the array after
-  // the first card is removed.
+  // Find index of book within myLibrary array for removal
   const bookIndex = myLibrary.findIndex((object) => {
     return object.title === this.title;
   });
@@ -35,7 +36,20 @@ Book.prototype.removeBook = function () {
 };
 
 Book.prototype.editBook = function () {
-  console.log("Edit issued for", this.title);
+  // update titlebar & button labels on the form
+  formTitleBar.textContent = `Edit Book #${this.index + 1}`;
+  formSubmitBtn.textContent = "Update Book";
+
+  // populate form with field values
+  titleInput.value = this.title;
+  authorInput.value = this.author;
+  pagesInput.value = this.pages;
+  this.readStatus === true
+    ? (readStatusInput.checked = true)
+    : (readStatusInput.checked = false);
+
+  // show form modal
+  showBookModal();
 };
 
 Book.prototype.toggleReadStatus = function () {
@@ -68,14 +82,13 @@ function displayAllBooks() {
   // Loop through array & display each book on the page
   myLibrary.forEach((book, i) => {
     // If card has already been created, skip iteration
-    if (book.addedToPage) return;
+    if (book.existsOnPage) return;
 
     // Prevent duplicates from being added on next iteration
-    book.addedToPage = 1;
+    book.existsOnPage = 1;
 
-    // Set index # of iteration
-    // Allowing us to target the card element within the DOM
-    book.domIndex = i;
+    // Set book iteration as index so edit book button can find the object
+    book.index = i;
 
     // Create elements for each book key:value pair
     book.card = document.createElement("div");
@@ -90,7 +103,6 @@ function displayAllBooks() {
 
     // Add .card for CSS styling
     book.card.classList.add("card");
-    book.card.setAttribute("data-card-index", book.domIndex);
 
     // Populate newly created elements with each key value
     book.cardTitle.textContent = book.title;
@@ -143,23 +155,44 @@ function displayAllBooks() {
 }
 
 //
-// Modal Form Submission: Add Book to Array & Display on the page
+// Modal Form Submission: Add or Edit Book & Display on the page
 //
 
 form.addEventListener("submit", (e) => {
   // prevent form submission
   e.preventDefault();
 
-  // append values to myLibrary array
-  addBookToLibrary(
-    titleInput.value,
-    authorInput.value,
-    pagesInput.value,
-    readStatusInput.checked
-  );
+  // add a new book
+  if (formTitleBar.textContent == "Add Book to Library") {
+    // append values to myLibrary array
+    addBookToLibrary(
+      titleInput.value,
+      authorInput.value,
+      pagesInput.value,
+      readStatusInput.checked
+    );
 
-  // create cards & display it to the page
-  displayAllBooks();
+    // create cards & display it to the page
+    displayAllBooks();
+  } else {
+    // Edit an existing book
+    // get index value from titlebar of form:
+    const bookID = formTitleBar.textContent.substr(-1) - 1;
+    const thisBook = myLibrary[bookID];
+
+    // update object & card values
+    thisBook.cardTitle.textContent = thisBook.title = titleInput.value;
+    thisBook.cardAuthor.textContent = thisBook.author = authorInput.value;
+    thisBook.cardPages.textContent = thisBook.pages = pagesInput.value;
+
+    if (readStatusInput.checked) {
+      thisBook.readStatus = true;
+      thisBook.setAsRead();
+    } else {
+      thisBook.readStatus = false;
+      thisBook.setAsUnread();
+    }
+  }
 
   // hide add book modal popup
   hideBookModal();
@@ -186,11 +219,10 @@ function clearFormValues() {
 //
 
 document.querySelector(".btn-add-book").addEventListener("click", () => {
-  if (modal.classList.contains("hidden")) {
-    showBookModal();
-  } else {
-    hideBookModal();
-  }
+  // This form doubles as the Edit Book form
+  formTitleBar.textContent = "Add Book to Library";
+  formSubmitBtn.textContent = "Add Book";
+  showBookModal();
 });
 
 //

@@ -17,7 +17,6 @@
   --clr-neutral-100: hsl(0, 0%, 95%);
   --clr-neutral-900: hsl(0, 0%, 15%);
   --clr-accent: hsl(251, 28%, 46%);
-
   --card-titlebar-height: 2em;
 
   font-family: var(--font-main);
