@@ -6,7 +6,7 @@ const modal = document.querySelector(".modal-container"),
   bookReadStatus = document.getElementById("book-read-status"),
   bookGrid = document.querySelector(".book-grid");
 
-const myLibrary = [];
+let myLibrary = [];
 
 // Constructor Function
 function Book(title, author, pages, readStatus) {
@@ -17,7 +17,24 @@ function Book(title, author, pages, readStatus) {
 }
 
 Book.prototype.removeBook = function () {
-  console.log("Delete issued for", this.title);
+  // Delete card element from page
+  const cardToRemove = document.querySelector(
+    `[data-card-index="${this.domIndex}"]`
+  );
+  cardToRemove.classList.add("fade-out");
+  setTimeout(() => {
+    cardToRemove.remove();
+  }, 200);
+
+  // Find index of book within myLibrary array. Why?
+  // this.domIndex doesn't match the index within the array after
+  // the first card is removed.
+  const bookIndex = myLibrary.findIndex((object) => {
+    return object.title === this.title;
+  });
+
+  // Remove the book from the array
+  myLibrary.splice(bookIndex, 1);
 };
 
 Book.prototype.editBook = function () {
