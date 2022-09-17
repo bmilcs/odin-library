@@ -18,12 +18,9 @@ function Book(title, author, pages, readStatus) {
 
 Book.prototype.removeBook = function () {
   // Delete card element from page
-  const cardToRemove = document.querySelector(
-    `[data-card-index="${this.domIndex}"]`
-  );
-  cardToRemove.classList.add("fade-out");
+  this.card.classList.add("fade-out");
   setTimeout(() => {
-    cardToRemove.remove();
+    this.card.remove();
   }, 200);
 
   // Find index of book within myLibrary array. Why?
@@ -39,6 +36,11 @@ Book.prototype.removeBook = function () {
 
 Book.prototype.editBook = function () {
   console.log("Edit issued for", this.title);
+};
+
+Book.prototype.toggleReadStatus = function () {
+  this.readStatus = !this.readStatus;
+  // this.updateReadStatus();
 };
 
 function addBookToLibrary(title, author, pages, readStatus) {
@@ -59,70 +61,72 @@ function displayAllBooks() {
     book.domIndex = i;
 
     // Create elements for each book key:value pair
-    let card = document.createElement("div"),
-      cardTitle = document.createElement("h2"),
-      cardAuthor = document.createElement("p"),
-      cardPages = document.createElement("p"),
-      cardReadStatus = document.createElement("p"),
-      cardIconContainer = document.createElement("div"),
-      cardReadStatusIcon = document.createElement("i"),
-      cardDeleteIcon = document.createElement("i"),
-      cardEditIcon = document.createElement("i");
+    book.card = document.createElement("div");
+    book.cardTitle = document.createElement("h2");
+    book.cardAuthor = document.createElement("p");
+    book.cardPages = document.createElement("p");
+    book.cardReadStatus = document.createElement("div");
+    book.cardIconContainer = document.createElement("div");
+    book.cardReadStatusIcon = document.createElement("i");
+    book.cardDeleteIcon = document.createElement("i");
+    book.cardEditIcon = document.createElement("i");
 
     // Add .card for CSS styling
-    card.classList.add("card");
-    card.setAttribute("data-card-index", book.domIndex);
+    book.card.classList.add("card");
+    book.card.setAttribute("data-card-index", book.domIndex);
 
     // Populate newly created elements with each key value
-    cardTitle.textContent = book.title;
-    cardAuthor.textContent = book.author;
-    cardPages.textContent = book.pages;
+    book.cardTitle.textContent = book.title;
+    book.cardAuthor.textContent = book.author;
+    book.cardPages.textContent = book.pages;
 
     // Convert boolean to human readable format & add icon
     if (book.readStatus === true) {
-      cardReadStatusIcon.classList.add("fa-square-check");
-      cardReadStatus.textContent = "Read";
-      cardReadStatus.classList.add("read");
+      book.cardReadStatusIcon.classList.add("fa-square-check");
+      book.cardReadStatus.textContent = "Read";
+      book.cardReadStatus.classList.add("read");
     } else {
-      cardReadStatusIcon.classList.add("fa-square");
-      cardReadStatus.textContent = "Unread";
-      cardReadStatus.classList.add("unread");
+      book.cardReadStatusIcon.classList.add("fa-square");
+      book.cardReadStatus.textContent = "Unread";
+      book.cardReadStatus.classList.add("unread");
     }
 
     // Add readstatus, edit, delete icons from Font Awesome library
-    cardDeleteIcon.classList.add("fa-solid");
-    cardDeleteIcon.classList.add("fa-trash");
-    cardEditIcon.classList.add("fa-pen-to-square");
-    cardEditIcon.classList.add("fa-solid");
-    cardReadStatusIcon.classList.add("fa-solid");
+    book.cardDeleteIcon.classList.add("fa-solid");
+    book.cardDeleteIcon.classList.add("fa-trash");
+    book.cardEditIcon.classList.add("fa-pen-to-square");
+    book.cardEditIcon.classList.add("fa-solid");
+    book.cardReadStatusIcon.classList.add("fa-solid");
 
     // Assemble Icon Container Div (Edit & Del icons)
-    cardIconContainer.classList.add("card-icon-container");
-    cardIconContainer.appendChild(cardReadStatusIcon);
-    cardIconContainer.appendChild(cardReadStatus);
-    cardIconContainer.appendChild(cardEditIcon);
-    cardIconContainer.appendChild(cardDeleteIcon);
+    book.cardIconContainer.classList.add("card-icon-container");
+    book.cardIconContainer.appendChild(book.cardReadStatusIcon);
+    book.cardIconContainer.appendChild(book.cardReadStatus);
+    book.cardIconContainer.appendChild(book.cardEditIcon);
+    book.cardIconContainer.appendChild(book.cardDeleteIcon);
 
     // Assemble final card
-    card.appendChild(cardTitle);
-    card.appendChild(cardAuthor);
-    card.appendChild(cardPages);
-    // card.appendChild(cardReadStatus);
-    card.appendChild(cardIconContainer);
+    book.card.appendChild(book.cardTitle);
+    book.card.appendChild(book.cardAuthor);
+    book.card.appendChild(book.cardPages);
+    book.card.appendChild(book.cardIconContainer);
 
     // Add card to body
-    bookGrid.appendChild(card);
+    bookGrid.appendChild(book.card);
 
-    // Add EventListeners to Delete & Edit icons
-    cardDeleteIcon.addEventListener("click", () => {
+    // Add EventListeners to Read Status, Delete, Edit icons
+    book.cardDeleteIcon.addEventListener("click", () => {
       book.removeBook();
     });
 
-    cardEditIcon.addEventListener("click", () => {
+    book.cardEditIcon.addEventListener("click", () => {
       book.editBook();
     });
 
-    console.log(book);
+    book.cardReadStatusIcon.addEventListener("click", () => {
+      book.toggleReadStatus();
+      console.log(book.readStatus);
+    });
   });
 }
 
