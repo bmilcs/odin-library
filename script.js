@@ -1,9 +1,9 @@
 const modal = document.querySelector(".modal-container"),
-  modalForm = document.getElementById("modal-form"),
-  bookTitle = document.getElementById("book-title"),
-  bookAuthor = document.getElementById("book-author"),
-  bookPages = document.getElementById("book-page-count"),
-  bookReadStatus = document.getElementById("book-read-status"),
+  form = document.getElementById("modal-form"),
+  titleInput = document.getElementById("book-title"),
+  authorInput = document.getElementById("book-author"),
+  pagesInput = document.getElementById("book-page-count"),
+  readStatusInput = document.getElementById("book-read-status"),
   bookGrid = document.querySelector(".book-grid");
 
 let myLibrary = [];
@@ -40,7 +40,24 @@ Book.prototype.editBook = function () {
 
 Book.prototype.toggleReadStatus = function () {
   this.readStatus = !this.readStatus;
-  // this.updateReadStatus();
+  if (this.readStatus) this.setAsRead();
+  else this.setAsUnread();
+};
+
+Book.prototype.setAsRead = function () {
+  this.cardReadStatusIcon.classList.remove("fa-square");
+  this.cardReadStatusIcon.classList.add("fa-square-check");
+  this.cardReadStatus.classList.remove("unread");
+  this.cardReadStatus.classList.add("read");
+  this.cardReadStatus.textContent = "Read";
+};
+
+Book.prototype.setAsUnread = function () {
+  this.cardReadStatusIcon.classList.remove("fa-square-check");
+  this.cardReadStatusIcon.classList.add("fa-square");
+  this.cardReadStatus.classList.remove("read");
+  this.cardReadStatus.classList.add("unread");
+  this.cardReadStatus.textContent = "Unread";
 };
 
 function addBookToLibrary(title, author, pages, readStatus) {
@@ -82,13 +99,9 @@ function displayAllBooks() {
 
     // Convert boolean to human readable format & add icon
     if (book.readStatus === true) {
-      book.cardReadStatusIcon.classList.add("fa-square-check");
-      book.cardReadStatus.textContent = "Read";
-      book.cardReadStatus.classList.add("read");
+      book.setAsRead();
     } else {
-      book.cardReadStatusIcon.classList.add("fa-square");
-      book.cardReadStatus.textContent = "Unread";
-      book.cardReadStatus.classList.add("unread");
+      book.setAsUnread();
     }
 
     // Add readstatus, edit, delete icons from Font Awesome library
@@ -125,7 +138,6 @@ function displayAllBooks() {
 
     book.cardReadStatusIcon.addEventListener("click", () => {
       book.toggleReadStatus();
-      console.log(book.readStatus);
     });
   });
 }
@@ -134,16 +146,16 @@ function displayAllBooks() {
 // Modal Form Submission: Add Book to Array & Display on the page
 //
 
-modalForm.addEventListener("submit", (e) => {
+form.addEventListener("submit", (e) => {
   // prevent form submission
   e.preventDefault();
 
   // append values to myLibrary array
   addBookToLibrary(
-    bookTitle.value,
-    bookAuthor.value,
-    bookPages.value,
-    bookReadStatus.checked
+    titleInput.value,
+    authorInput.value,
+    pagesInput.value,
+    readStatusInput.checked
   );
 
   // create cards & display it to the page
@@ -162,7 +174,7 @@ modalForm.addEventListener("submit", (e) => {
 
 function clearFormValues() {
   // loop through inputs & clear their values
-  const inputArray = Array.from(modalForm.querySelectorAll("input"));
+  const inputArray = Array.from(form.querySelectorAll("input"));
 
   inputArray.forEach((input) => {
     input.type === "checkbox" ? (input.checked = false) : (input.value = "");
@@ -206,7 +218,7 @@ function showBookModal() {
   setTimeout(() => {
     modal.classList.remove("hidden");
   }, 1);
-  bookTitle.focus();
+  titleInput.focus();
 }
 
 //
