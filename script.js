@@ -162,8 +162,9 @@ form.addEventListener("submit", (e) => {
   // prevent form submission
   e.preventDefault();
 
-  // add a new book
   if (formTitleBar.textContent == "Add Book to Library") {
+    // add a new book
+
     // append values to myLibrary array
     addBookToLibrary(
       titleInput.value,
@@ -176,8 +177,9 @@ form.addEventListener("submit", (e) => {
     displayAllBooks();
   } else {
     // Edit an existing book
+
     // get index value from titlebar of form:
-    const bookID = formTitleBar.textContent.substr(-1) - 1;
+    const bookID = formTitleBar.textContent.split("#")[1] - 1;
     const thisBook = myLibrary[bookID];
 
     // update object & card values
