@@ -19,16 +19,28 @@ function addBookToLibrary(title, author, pages, readStatus) {
 
 function displayAllBooks() {
   // Loop through array & display each book on the page
-  myLibrary.forEach((book) => {
+  myLibrary.forEach((book, i) => {
+    // If card has already been created, skip iteration
+    if (book.addedToPage) return;
+
+    // Prevent duplicates from being added on next iteration
+    book.addedToPage = 1;
+
+    // Set index # of iteration
+    // Allowing us to target the card element within the DOM
+    book.domIndex = i;
+
     // Create elements for each book key:value pair
     let card = document.createElement("div"),
       cardTitle = document.createElement("h2"),
       cardAuthor = document.createElement("p"),
       cardPages = document.createElement("p"),
-      cardReadStatus = document.createElement("p");
+      cardReadStatus = document.createElement("p"),
+      cardDeleteIcon = document.createElement("i");
 
     // Add .card for CSS styling
     card.classList.add("card");
+    card.setAttribute("data-card-index", book.domIndex);
 
     // Populate newly created elements with each key value
     cardTitle.textContent = book.title;
@@ -36,18 +48,25 @@ function displayAllBooks() {
     cardPages.textContent = book.pages;
 
     // Convert boolean to human readable format
-    book.readStatus === 1
+    book.readStatus === true
       ? (cardReadStatus.textContent = "Read")
       : (cardReadStatus.textContent = "Unread");
+
+    // Add delete icon from Font Awesome library
+    cardDeleteIcon.classList.add("fa-solid");
+    cardDeleteIcon.classList.add("fa-trash");
 
     // Assemble final card
     card.appendChild(cardTitle);
     card.appendChild(cardAuthor);
     card.appendChild(cardPages);
     card.appendChild(cardReadStatus);
+    card.appendChild(cardDeleteIcon);
 
     // Add card to body
     bookGrid.appendChild(card);
+
+    console.log(book);
   });
 }
 
@@ -59,19 +78,37 @@ modalForm.addEventListener("submit", (e) => {
   // prevent form submission
   e.preventDefault();
 
-  // assign input values to variables
-  titleValue = document.getElementById("book-title").value;
-  authorValue = document.getElementById("book-author").value;
-  pagesValue = document.getElementById("book-page-count").value;
-  readStatusValue = document.getElementById("book-read-status").value;
+  const bookTitle = document.getElementById("book-title"),
+    bookAuthor = document.getElementById("book-author"),
+    bookPages = document.getElementById("book-page-count"),
+    bookReadStatus = document.getElementById("book-read-status");
 
   // append values to myLibrary array
-  addBookToLibrary(titleValue, authorValue, pagesValue, readStatusValue);
+  addBookToLibrary(
+    bookTitle.value,
+    bookAuthor.value,
+    bookPages.value,
+    bookReadStatus.checked
+  );
 
   // create cards & display it to the page
-  // TODO: fix - duplicates entire library on each add
   displayAllBooks();
+
+  // hide add book modal popup
+  modal.classList.add("hidden");
+
+  // clear form values
+  clearFormValues();
 });
+
+function clearFormValues() {
+  // loop through inputs & clear their values
+  const inputArray = Array.from(modalForm.querySelectorAll("input"));
+
+  inputArray.forEach((input) => {
+    input.type === "checkbox" ? (input.checked = false) : (input.value = "");
+  });
+}
 
 //
 // Header Button: Add Book > Shows Modal
@@ -102,9 +139,9 @@ addBookToLibrary(
   "The Oz Principle",
   "Roger Connors, Tom Smith, Craig Hickman",
   "232",
-  1
+  true
 );
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "295", 0);
+addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "295", false);
 
 displayAllBooks();

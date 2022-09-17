@@ -150,12 +150,19 @@ book cards
 }
 
 /* page count & read status */
-p + p {
+.card p + p {
   font-size: 0.875rem;
 }
 
-h2 + p + p::after {
+.card h2 + p + p::after {
   content: " pages";
+}
+
+.card i.fa-solid {
+  width: 100%;
+  text-align: right;
+  color: var(--clr-accent);
+  font-size: 1.5em;
 }
 
 /*
