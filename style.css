@@ -24,7 +24,7 @@
 }
 
 body {
-  background: rgb(232, 232, 232);
+  background: rgb(232, 232, 232) fixed;
   background-image: linear-gradient(
     120deg,
     #cbcbcb 0%,
@@ -64,13 +64,33 @@ header > button:hover {
 }
 
 /*
+book section / grid
+*/
+
+.book-section {
+  display: flex;
+  justify-content: center;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: 2rem;
+
+  width: min(90%, 960px);
+  padding: 4rem 1rem;
+  /* background: var(--bg-transparent); */
+}
+
+/*
 book cards
 */
 
 .card {
-  max-width: 40ch;
+  width: 40ch;
   padding: 1rem;
-  margin: 2rem;
 
   background: var(--clr-neutral-100);
   box-shadow: var(--box-shadow);
@@ -139,6 +159,7 @@ Add Book MODAL
 section.modal {
   opacity: 1;
   transition: all 0.2s ease-out;
+  z-index: 1;
 
   position: absolute;
 

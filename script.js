@@ -1,6 +1,8 @@
 const modal = document.querySelector(".modal");
 const modalForm = document.getElementById("modal-form");
 const modalBookTitle = document.getElementById("book-title");
+const bookGrid = document.querySelector(".book-grid");
+
 const myLibrary = [];
 
 // Constructor Function
@@ -45,7 +47,7 @@ function displayAllBooks() {
     card.appendChild(cardReadStatus);
 
     // Add card to body
-    document.querySelector("body").appendChild(card);
+    bookGrid.appendChild(card);
   });
 }
 
