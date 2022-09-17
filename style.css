@@ -101,14 +101,6 @@ book cards
   background: var(--clr-neutral-100);
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
-
-  transition: scale 0.15s ease-in-out;
-}
-
-.card:focus,
-.card:hover {
-  scale: 1.05;
-  transition: scale 0.15s ease-in-out;
 }
 
 .card > h2 {
@@ -158,11 +150,27 @@ book cards
   content: " pages";
 }
 
-.card i.fa-solid {
-  width: 100%;
+.card .card-icon-container {
+  display: flex;
+  justify-content: end;
+
+  --border-hover-size: 0.25em;
+}
+
+.card .fa-solid {
+  padding: 0.5em;
   text-align: right;
   color: var(--clr-accent);
   font-size: 1.5em;
+}
+
+.card .fa-solid:hover,
+.card .fa-solid:focus {
+  padding: calc(0.5em - var(--border-hover-size));
+  color: var(--clr-neutral-100);
+  background: var(--clr-accent);
+  border: var(--border-hover-size) solid var(--clr-accent);
+  border-radius: var(--border-radius);
 }
 
 /*
@@ -176,7 +184,7 @@ section.modal-container {
   top: 0;
 
   opacity: 1;
-  transition: opacity 0.2s ease-out;
+  transition: opacity 0.2s ease-in;
   z-index: 1;
 
   background: var(--bg-transparent-900);
@@ -186,6 +194,7 @@ section.modal-container.hidden {
   opacity: 0;
   height: 0;
   overflow: hidden;
+  transition: opacity 0.2s ease-out;
 }
 
 div.modal {

@@ -13,6 +13,14 @@ function Book(title, author, pages, readStatus) {
   this.readStatus = readStatus;
 }
 
+Book.prototype.removeBook = function () {
+  console.log("Delete issued for", this.title);
+};
+
+Book.prototype.editBook = function () {
+  console.log("Edit issued for", this.title);
+};
+
 function addBookToLibrary(title, author, pages, readStatus) {
   myLibrary.push(new Book(title, author, pages, readStatus));
 }
@@ -36,7 +44,9 @@ function displayAllBooks() {
       cardAuthor = document.createElement("p"),
       cardPages = document.createElement("p"),
       cardReadStatus = document.createElement("p"),
-      cardDeleteIcon = document.createElement("i");
+      cardIconContainer = document.createElement("div"),
+      cardDeleteIcon = document.createElement("i"),
+      cardEditIcon = document.createElement("i");
 
     // Add .card for CSS styling
     card.classList.add("card");
@@ -52,19 +62,35 @@ function displayAllBooks() {
       ? (cardReadStatus.textContent = "Read")
       : (cardReadStatus.textContent = "Unread");
 
-    // Add delete icon from Font Awesome library
+    // Add edit & delete icons from Font Awesome library
     cardDeleteIcon.classList.add("fa-solid");
     cardDeleteIcon.classList.add("fa-trash");
+    cardEditIcon.classList.add("fa-pen-to-square");
+    cardEditIcon.classList.add("fa-solid");
+
+    // Assemble Icon Container Div (Edit & Del icons)
+    cardIconContainer.classList.add("card-icon-container");
+    cardIconContainer.appendChild(cardEditIcon);
+    cardIconContainer.appendChild(cardDeleteIcon);
 
     // Assemble final card
     card.appendChild(cardTitle);
     card.appendChild(cardAuthor);
     card.appendChild(cardPages);
     card.appendChild(cardReadStatus);
-    card.appendChild(cardDeleteIcon);
+    card.appendChild(cardIconContainer);
 
     // Add card to body
     bookGrid.appendChild(card);
+
+    // Add EventListeners to Delete & Edit icons
+    cardDeleteIcon.addEventListener("click", () => {
+      book.removeBook();
+    });
+
+    cardEditIcon.addEventListener("click", () => {
+      book.editBook();
+    });
 
     console.log(book);
   });
@@ -95,11 +121,15 @@ modalForm.addEventListener("submit", (e) => {
   displayAllBooks();
 
   // hide add book modal popup
-  modal.classList.add("hidden");
+  hideBookModal();
 
   // clear form values
   clearFormValues();
 });
+
+//
+// Clear all values inputted into the form
+//
 
 function clearFormValues() {
   // loop through inputs & clear their values
@@ -116,10 +146,9 @@ function clearFormValues() {
 
 document.querySelector(".btn-add-book").addEventListener("click", () => {
   if (modal.classList.contains("hidden")) {
-    modal.classList.remove("hidden");
-    modalBookTitle.focus();
+    showBookModal();
   } else {
-    modal.classList.add("hidden");
+    hideBookModal();
   }
 });
 
@@ -128,8 +157,28 @@ document.querySelector(".btn-add-book").addEventListener("click", () => {
 //
 
 window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") modal.classList.add("hidden");
+  if (e.key === "Escape") hideBookModal();
 });
+
+//
+// Hide & Show Book Modal Functions
+//
+
+function hideBookModal() {
+  modal.classList.add("hidden");
+  setTimeout(() => {
+    modal.style.display = "none";
+  }, 200);
+}
+
+function showBookModal() {
+  modal.style.display = "block";
+  // Fade-in effect was not working unless a minimal timeout is set
+  setTimeout(() => {
+    modal.classList.remove("hidden");
+  }, 1);
+  modalBookTitle.focus();
+}
 
 //
 // Sample data: Testing purposes
