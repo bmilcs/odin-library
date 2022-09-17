@@ -139,11 +139,13 @@ book cards
 /* author */
 .card > p:first-of-type {
   font-style: italic;
+  margin-top: 1rem;
 }
 
 /* page count & read status */
 .card p + p {
   font-size: 0.875rem;
+  margin-bottom: 1rem;
 }
 
 .card h2 + p + p::after {
@@ -153,8 +155,16 @@ book cards
 .card .card-icon-container {
   display: flex;
   justify-content: end;
+  align-items: center;
 
   --border-hover-size: 0.25em;
+}
+
+/* icons */
+
+.card .read,
+.card .unread {
+  margin-right: auto;
 }
 
 .card .fa-solid {
@@ -178,6 +188,7 @@ Add Book MODAL Pop-up
 */
 
 section.modal-container {
+  display: none;
   position: fixed;
   width: 100vw;
   height: 100vh;

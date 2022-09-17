@@ -48,6 +48,7 @@ function displayAllBooks() {
       cardPages = document.createElement("p"),
       cardReadStatus = document.createElement("p"),
       cardIconContainer = document.createElement("div"),
+      cardReadStatusIcon = document.createElement("i"),
       cardDeleteIcon = document.createElement("i"),
       cardEditIcon = document.createElement("i");
 
@@ -60,19 +61,28 @@ function displayAllBooks() {
     cardAuthor.textContent = book.author;
     cardPages.textContent = book.pages;
 
-    // Convert boolean to human readable format
-    book.readStatus === true
-      ? (cardReadStatus.textContent = "Read")
-      : (cardReadStatus.textContent = "Unread");
+    // Convert boolean to human readable format & add icon
+    if (book.readStatus === true) {
+      cardReadStatusIcon.classList.add("fa-square-check");
+      cardReadStatus.textContent = "Read";
+      cardReadStatus.classList.add("read");
+    } else {
+      cardReadStatusIcon.classList.add("fa-square");
+      cardReadStatus.textContent = "Unread";
+      cardReadStatus.classList.add("unread");
+    }
 
-    // Add edit & delete icons from Font Awesome library
+    // Add readstatus, edit, delete icons from Font Awesome library
     cardDeleteIcon.classList.add("fa-solid");
     cardDeleteIcon.classList.add("fa-trash");
     cardEditIcon.classList.add("fa-pen-to-square");
     cardEditIcon.classList.add("fa-solid");
+    cardReadStatusIcon.classList.add("fa-solid");
 
     // Assemble Icon Container Div (Edit & Del icons)
     cardIconContainer.classList.add("card-icon-container");
+    cardIconContainer.appendChild(cardReadStatusIcon);
+    cardIconContainer.appendChild(cardReadStatus);
     cardIconContainer.appendChild(cardEditIcon);
     cardIconContainer.appendChild(cardDeleteIcon);
 
@@ -80,7 +90,7 @@ function displayAllBooks() {
     card.appendChild(cardTitle);
     card.appendChild(cardAuthor);
     card.appendChild(cardPages);
-    card.appendChild(cardReadStatus);
+    // card.appendChild(cardReadStatus);
     card.appendChild(cardIconContainer);
 
     // Add card to body
