@@ -21,34 +21,36 @@
       </div>
     </section>
 
-    <section class="modal hidden">
-      <div class="modal-header">Add Book to Library</div>
-      <form id="modal-form">
-        <div class="input-container">
-          <label for="book-title">Title</label>
-          <input type="text" required="required" id="book-title" />
-        </div>
-        <div class="input-container">
-          <label for="book-author">Author</label>
-          <input type="text" required="required" id="book-author" />
-        </div>
-        <div class="input-container">
-          <label for="book-page-count">Page Count</label>
-          <input
-            type="number"
-            required="required"
-            id="book-page-count"
-            placeholder="321"
-          />
-        </div>
-        <div class="input-container checkbox-container">
-          <input type="checkbox" class="checkbox" id="book-read-status" />
-          <label class="checkbox" for="book-read-status">
-            Have you read this book?
-          </label>
-        </div>
-        <button>Add to Library</button>
-      </form>
+    <section class="modal-container hidden">
+      <div class="modal">
+        <div class="modal-header">Add Book to Library</div>
+        <form id="modal-form">
+          <div class="input-container">
+            <label for="book-title">Title</label>
+            <input type="text" required="required" id="book-title" />
+          </div>
+          <div class="input-container">
+            <label for="book-author">Author</label>
+            <input type="text" required="required" id="book-author" />
+          </div>
+          <div class="input-container">
+            <label for="book-page-count">Page Count</label>
+            <input
+              type="number"
+              required="required"
+              id="book-page-count"
+              placeholder="321"
+            />
+          </div>
+          <div class="input-container checkbox-container">
+            <input type="checkbox" class="checkbox" id="book-read-status" />
+            <label class="checkbox" for="book-read-status">
+              Have you read this book?
+            </label>
+          </div>
+          <button>Add to Library</button>
+        </form>
+      </div>
     </section>
   </body>
 </html>

@@ -12,10 +12,11 @@
   --font-main: "Inter", sans-serif;
   --box-shadow: 4px 4px 8px hsla(0, 0%, 0%, 0.2);
   --border-radius: 8px;
-  --bg-transparent: hsl(0, 0%, 9%, 35%);
+  --bg-transparent-100: hsl(0, 0%, 9%, 35%);
+  --bg-transparent-900: hsl(0, 0%, 9%, 65%);
   --clr-neutral-100: hsl(0, 0%, 95%);
   --clr-neutral-900: hsl(0, 0%, 15%);
-  --clr-accent: hsl(251, 34%, 50%);
+  --clr-accent: hsl(251, 28%, 46%);
 
   --card-titlebar-height: 2em;
 
@@ -40,13 +41,17 @@ header
 
 header {
   display: grid;
+  width: 100%;
+
   grid-template-columns: 1fr max-content;
   align-items: center;
 
   padding-inline: 1rem;
 
-  background: var(--bg-transparent);
+  background: var(--clr-accent);
   color: var(--clr-neutral-100);
+
+  z-index: 12;
 }
 
 header > button {
@@ -68,6 +73,7 @@ book section / grid
 */
 
 .book-section {
+  width: 100vw;
   display: flex;
   justify-content: center;
 }
@@ -153,15 +159,31 @@ h2 + p + p::after {
 }
 
 /*
-Add Book MODAL
+Add Book MODAL Pop-up
 */
 
-section.modal {
+section.modal-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vw;
+  top: 0;
+
   opacity: 1;
-  transition: all 0.2s ease-out;
+  transition: opacity 0.2s ease-out;
   z-index: 1;
 
-  position: absolute;
+  background: var(--bg-transparent-900);
+}
+
+section.modal-container.hidden {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+div.modal {
+  position: fixed;
+  display: fixed;
 
   left: 50%;
   top: 50%;
@@ -172,12 +194,6 @@ section.modal {
 
   background-color: var(--clr-neutral-100);
   border-radius: var(--border-radius);
-}
-
-section.modal.hidden {
-  opacity: 0;
-  height: 0;
-  overflow: hidden;
 }
 
 /* modal title bar */
@@ -214,7 +230,7 @@ section.modal.hidden {
   margin-top: 0.25rem;
 
   border-radius: var(--border-radius);
-  border: 1px solid var(--bg-transparent);
+  border: 1px solid var(--bg-transparent-100);
 }
 
 .modal input[type="number"] {
@@ -222,7 +238,7 @@ section.modal.hidden {
 }
 
 input::placeholder {
-  color: var(--bg-transparent);
+  color: var(--bg-transparent-100);
 }
 
 .modal .checkbox-container {

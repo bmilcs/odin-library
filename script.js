@@ -1,4 +1,4 @@
-const modal = document.querySelector(".modal");
+const modal = document.querySelector(".modal-container");
 const modalForm = document.getElementById("modal-form");
 const modalBookTitle = document.getElementById("book-title");
 const bookGrid = document.querySelector(".book-grid");
