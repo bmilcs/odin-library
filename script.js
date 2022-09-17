@@ -1,7 +1,10 @@
-const modal = document.querySelector(".modal-container");
-const modalForm = document.getElementById("modal-form");
-const modalBookTitle = document.getElementById("book-title");
-const bookGrid = document.querySelector(".book-grid");
+const modal = document.querySelector(".modal-container"),
+  modalForm = document.getElementById("modal-form"),
+  bookTitle = document.getElementById("book-title"),
+  bookAuthor = document.getElementById("book-author"),
+  bookPages = document.getElementById("book-page-count"),
+  bookReadStatus = document.getElementById("book-read-status"),
+  bookGrid = document.querySelector(".book-grid");
 
 const myLibrary = [];
 
@@ -104,11 +107,6 @@ modalForm.addEventListener("submit", (e) => {
   // prevent form submission
   e.preventDefault();
 
-  const bookTitle = document.getElementById("book-title"),
-    bookAuthor = document.getElementById("book-author"),
-    bookPages = document.getElementById("book-page-count"),
-    bookReadStatus = document.getElementById("book-read-status");
-
   // append values to myLibrary array
   addBookToLibrary(
     bookTitle.value,
@@ -177,7 +175,7 @@ function showBookModal() {
   setTimeout(() => {
     modal.classList.remove("hidden");
   }, 1);
-  modalBookTitle.focus();
+  bookTitle.focus();
 }
 
 //
