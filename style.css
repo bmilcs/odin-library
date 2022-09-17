@@ -165,7 +165,7 @@ Add Book MODAL Pop-up
 section.modal-container {
   position: fixed;
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   top: 0;
 
   opacity: 1;
