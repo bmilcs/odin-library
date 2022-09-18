@@ -15,9 +15,8 @@
   --bg-transparent-100: hsl(0, 0%, 9%, 35%);
   --bg-transparent-900: hsl(0, 0%, 9%, 65%);
   --clr-neutral-100: hsl(0, 0%, 95%);
-  --clr-neutral-900: hsl(0, 0%, 15%);
-  --clr-accent: hsl(251, 28%, 46%);
-  --card-titlebar-height: 2em;
+  --clr-neutral-900: hsl(222, 11%, 18%);
+  --clr-accent-100: hsl(205, 100%, 51%);
 
   font-family: var(--font-main);
   color: var(--clr-neutral-900);
@@ -51,7 +50,7 @@ header {
 
   padding-inline: 1rem;
 
-  background: var(--clr-accent);
+  background: var(--clr-neutral-900);
   color: var(--clr-neutral-100);
 
   z-index: 12;
@@ -84,13 +83,13 @@ book section / grid
 .book-grid {
   position: relative; /* for footer */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   align-items: center;
   justify-items: center;
   gap: 2rem;
 
-  width: min(90%, 960px);
-  padding: 4rem 1rem;
+  width: min(calc(100% -2rem), 960px);
+  padding: 5vh 1rem;
   /* background: var(--bg-transparent); */
 }
 
@@ -99,7 +98,9 @@ book cards
 */
 
 .card {
-  width: 40ch;
+  width: min(100%, 480px);
+  height: 100%;
+
   padding: 1rem;
 
   background: var(--clr-neutral-100);
@@ -109,31 +110,16 @@ book cards
 
 .card > h2 {
   position: relative;
-
   margin-bottom: 0.5em;
 
-  line-height: var(--card-titlebar-height);
+  overflow-wrap: break-word;
+  line-height: 1;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 
-  background: var(--clr-accent);
-  color: var(--clr-neutral-100);
+  color: var(--clr-neutral-900);
+
   z-index: 1;
-}
-
-/* card titlebar trickery (extend full length of card) */
-.card > h2::before,
-.card > h2::after {
-  content: "";
-
-  display: inline-block;
-  position: absolute;
-  left: -1.3rem;
-  z-index: -1;
-
-  border-radius: var(--border-radius);
-  padding: calc(var(--card-titlebar-height) / 2);
-  background: var(--clr-accent);
 }
 
 .card > h2::after {
@@ -164,8 +150,6 @@ book cards
   --border-hover-size: 0.25em;
 }
 
-/* icons */
-
 .card .read,
 .card .unread {
   margin-right: auto;
@@ -174,17 +158,28 @@ book cards
 .card .fa-solid {
   padding: 0.5em;
   text-align: right;
-  color: var(--clr-accent);
-  font-size: 1.5em;
+  color: var(--clr-neutral-900);
+  font-size: 1.25em;
 }
 
 .card .fa-solid:hover,
 .card .fa-solid:focus {
   padding: calc(0.5em - var(--border-hover-size));
   color: var(--clr-neutral-100);
-  background: var(--clr-accent);
-  border: var(--border-hover-size) solid var(--clr-accent);
+  background: var(--clr-accent-100);
+  border: var(--border-hover-size) solid var(--clr-accent-100);
   border-radius: var(--border-radius);
+}
+
+.card .fa-square:hover,
+.card .fa-square-check:hover,
+.card .fa-square:focus,
+.card .fa-square-check:focus {
+  color: var(--clr-accent-100);
+  border: none;
+  background: none;
+  border-radius: none;
+  padding: 0.5em;
 }
 
 /*
@@ -286,7 +281,7 @@ input::placeholder {
 
 .modal button:focus,
 .modal button:hover {
-  background: var(--clr-accent);
+  background: var(--clr-neutral-90);
   color: var(--clr-neutral-100);
   transition: background-color 0.15s ease-in-out;
 }
