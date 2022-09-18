@@ -16,7 +16,7 @@
   --bg-transparent-900: hsl(0, 0%, 9%, 65%);
   --clr-neutral-100: hsl(0, 0%, 95%);
   --clr-neutral-900: hsl(222, 11%, 18%);
-  --clr-accent-100: hsl(205, 100%, 51%);
+  --clr-accent-100: hsl(332, 97%, 43%);
 
   font-family: var(--font-main);
   color: var(--clr-neutral-900);
@@ -270,7 +270,7 @@ div.modal {
 }
 
 .modal input[type="number"] {
-  width: 15ch;
+  width: 10ch;
 }
 
 input::placeholder {
@@ -306,7 +306,7 @@ footer {
   padding: 1.5rem;
 
   color: var(--clr-neutral-900);
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 800;
 
   transition: all 0.25s ease-in-out;

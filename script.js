@@ -121,7 +121,7 @@ function displayAllBooks() {
     book.cardDeleteIcon.classList.add("fa-trash");
     book.cardEditIcon.classList.add("fa-pen-to-square");
     book.cardEditIcon.classList.add("fa-solid");
-    book.cardReadStatusIcon.classList.add("fa-solid");
+    book.cardReadStatusIcon.classList.add("fa-regular");
 
     // Assemble Icon Container Div (Edit & Del icons)
     book.cardIconContainer.classList.add("card-icon-container");
@@ -262,10 +262,30 @@ function showBookModal() {
 addBookToLibrary(
   "The Oz Principle",
   "Roger Connors, Tom Smith, Craig Hickman",
-  "232",
+  232,
   true
 );
-
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "295", false);
+addBookToLibrary("Atomic Habits", "James Clear", 320, false);
+addBookToLibrary("12 Rules for Life", "Jordan B. Peterson", 448, true);
+addBookToLibrary(
+  "The 7 Habits of Highly Effective People",
+  "Stephen R. Covey",
+  381,
+  true
+);
+addBookToLibrary(
+  "How to Win Friends & Influence People",
+  "Dale Carnegie",
+  288,
+  true
+);
+addBookToLibrary(
+  "The Subtle Art of Not Giving a F*ck",
+  "Mark Manson",
+  224,
+  true
+);
+addBookToLibrary("The Total Money Makeover", "Dave Ramsey", 237, true);
+addBookToLibrary("Financial Peace", "Dave Ramsey", 288, true);
 
 displayAllBooks();
