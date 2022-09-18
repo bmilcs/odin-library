@@ -176,9 +176,9 @@ form.addEventListener("submit", (e) => {
     // create cards & display it to the page
     displayAllBooks();
   } else {
-    // Edit an existing book
+    // edit an existing book
 
-    // get index value from titlebar of form:
+    // get index value from titlebar of form
     const bookID = formTitleBar.textContent.split("#")[1] - 1;
     const thisBook = myLibrary[bookID];
 

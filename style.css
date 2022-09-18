@@ -31,6 +31,10 @@ body {
     rgb(124, 124, 124) 100%
   );
 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
   height: 100vh;
 }
 
@@ -78,6 +82,7 @@ book section / grid
 }
 
 .book-grid {
+  position: relative; /* for footer */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   align-items: center;
@@ -287,10 +292,45 @@ input::placeholder {
 }
 
 /*
+footer
+*/
+
+footer {
+  margin-top: auto;
+  width: 100%;
+  padding: 1.5rem;
+
+  color: var(--clr-neutral-900);
+  font-size: 1rem;
+  font-weight: 800;
+
+  transition: all 0.25s ease-in-out;
+}
+
+footer i {
+  font-size: 1.5em;
+}
+
+a:hover {
+  color: var(--clr-neutral-100);
+  transition: all 0.25s ease-in-out;
+}
+
+a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25em;
+  text-decoration: none;
+  color: var(--clr-neutral-900);
+}
+
+/*
 global properties
 */
 
 button {
+  cursor: pointer;
   display: block;
   padding: 0.75rem 1.5rem;
   border-radius: var(--border-radius);
@@ -300,6 +340,10 @@ button {
 
 p {
   line-height: 1.5;
+}
+
+i {
+  cursor: pointer;
 }
 
 .fade-out {
