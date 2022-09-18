@@ -16,7 +16,7 @@
   --bg-transparent-900: hsl(0, 0%, 9%, 65%);
   --clr-neutral-100: hsl(0, 0%, 95%);
   --clr-neutral-900: hsl(222, 11%, 18%);
-  --clr-accent-100: hsl(332, 97%, 43%);
+  --clr-accent-100: hsl(208, 70%, 49%);
 
   font-family: var(--font-main);
   color: var(--clr-neutral-900);
@@ -101,6 +101,7 @@ book cards
   height: 100%;
 
   padding: 1.5rem;
+  padding-bottom: 1rem;
 
   display: flex;
   flex-direction: column;
@@ -108,13 +109,15 @@ book cards
   background: var(--clr-neutral-100);
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
+
+  border-left: calc(var(--border-radius) + 0.25em) solid var(--clr-accent-100);
 }
 
 .card > h2 {
   position: relative;
-  margin-top: 0.5em;
 
   overflow-wrap: break-word;
+
   line-height: 1;
   font-weight: 700;
   font-size: 1.25rem;
@@ -124,14 +127,14 @@ book cards
   z-index: 1;
 }
 
-.card > h2::after {
-  right: -1.3rem;
-}
-
 /* author */
 .card > p:first-of-type {
   font-style: italic;
-  margin-top: 1rem;
+}
+
+.card > p:last-of-type {
+  margin-top: 1em;
+  font-size: 0.85em;
 }
 
 /* page count & read status */
@@ -159,21 +162,24 @@ book cards
   margin-right: auto;
 }
 
-.card .fa-solid {
-  padding: 0.5em;
+.card .fa-solid,
+.card .fa-regular {
+  --icon-padding: 0.35em;
+
+  padding: var(--icon-padding);
   text-align: right;
   color: var(--clr-neutral-900);
   font-size: 1.25em;
 }
 
-.card .fa-solid.fa-square-check,
-.card .fa-solid.fa-square {
+.card .fa-regular.fa-square-check,
+.card .fa-regular.fa-square {
   padding-left: 0;
 }
 
 .card .fa-solid:hover,
 .card .fa-solid:focus {
-  padding: calc(0.5em - var(--border-hover-size));
+  padding: calc(var(--icon-padding) - var(--border-hover-size));
   color: var(--clr-neutral-100);
   background: var(--clr-accent-100);
   border: var(--border-hover-size) solid var(--clr-accent-100);
@@ -188,8 +194,16 @@ book cards
   border: none;
   background: none;
   border-radius: none;
-  padding: 0.5em;
+  padding: var(--icon-padding);
   padding-left: 0;
+}
+
+div.read {
+  font-weight: 800;
+}
+
+div.unread {
+  color: var(--bg-transparent-900);
 }
 
 /*
