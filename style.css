@@ -88,7 +88,7 @@ book section / grid
   justify-items: center;
   gap: 2rem;
 
-  max-width: 90%;
+  width: min(90%, 1280px);
   padding: 5vh 1rem;
 }
 
