@@ -100,7 +100,7 @@ book cards
   width: min(100%, 480px);
   height: 100%;
 
-  padding: 1rem;
+  padding: 1.5rem;
 
   display: flex;
   flex-direction: column;
@@ -112,7 +112,7 @@ book cards
 
 .card > h2 {
   position: relative;
-  margin-bottom: 0.5em;
+  margin-top: 0.5em;
 
   overflow-wrap: break-word;
   line-height: 1;
