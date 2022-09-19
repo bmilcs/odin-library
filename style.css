@@ -15,8 +15,9 @@
   --bg-transparent-100: hsl(0, 0%, 9%, 35%);
   --bg-transparent-900: hsl(0, 0%, 9%, 65%);
   --clr-neutral-100: hsl(0, 0%, 95%);
+  --clr-neutral-800: hsl(222, 11%, 28%);
   --clr-neutral-900: hsl(222, 11%, 18%);
-  --clr-accent-100: hsl(208, 70%, 49%);
+  --clr-accent-100: hsl(207, 65%, 58%);
 
   font-family: var(--font-main);
   color: var(--clr-neutral-900);
@@ -56,6 +57,7 @@ header {
   z-index: 12;
 }
 
+/* add book button */
 header > button {
   color: var(--clr-neutral-900);
   background: var(--clr-neutral-100);
@@ -88,7 +90,7 @@ book section / grid
   justify-items: center;
   gap: 2rem;
 
-  width: min(90%, 1280px);
+  width: min(100%, 1280px);
   padding: 5vh 1rem;
 }
 
@@ -97,20 +99,30 @@ book cards
 */
 
 .card {
+  display: flex;
+  flex-direction: column;
+
+  scale: 0.95;
+  transition: scale 0.15s ease-in-out;
+
   width: min(100%, 480px);
   height: 100%;
 
   padding: 1.5rem;
   padding-bottom: 1rem;
 
-  display: flex;
-  flex-direction: column;
-
   background: var(--clr-neutral-100);
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
 
-  border-left: calc(var(--border-radius) + 0.25em) solid var(--clr-accent-100);
+  border: 0.?25em solid var(--clr-accent-100);
+  border-left: calc(var(--border-radius) + 0.25em) solid var(--clr-accent-100); */
+}
+
+.card:focus,
+.card:hover {
+  scale: 1;
+  transition: scale 0.15s ease-in-out;
 }
 
 .card > h2 {
@@ -128,23 +140,23 @@ book cards
 }
 
 /* author */
-.card > p:first-of-type {
+/* .card > p:first-of-type {
   font-style: italic;
-}
+} */
 
 .card > p:last-of-type {
   margin-top: 1em;
   font-size: 0.85em;
 }
 
-/* page count & read status */
+/* page count */
 .card p + p {
-  font-size: 0.875rem;
   margin-bottom: 1rem;
 }
 
+/* page count  */
 .card h2 + p + p::after {
-  content: " pages";
+  content: " Pages";
 }
 
 .card .card-icon-container {
@@ -159,19 +171,16 @@ book cards
 
 .card .fa-solid,
 .card .fa-regular {
+  /* this is used to offset the hover effect. without it, the card grows & shifts on hover. */
   --icon-padding: 0.35em;
-
   padding: var(--icon-padding);
+
   font-size: 1.25em;
 }
 
 .card .fa-solid {
-  color: var(--clr-neutral-900);
-}
-
-.card .fa-regular.fa-square-check,
-.card .fa-regular.fa-square {
-  padding-left: 0;
+  color: var(--clr-neutral-800);
+  transition: color 0.15s ease-in-out;
 }
 
 .card .fa-solid:hover,
@@ -181,22 +190,25 @@ book cards
   color: var(--clr-neutral-100);
   background: var(--clr-accent-100);
 
+  transition: color 0.15s ease-in-out;
+
   border: var(--border-hover-size) solid var(--clr-accent-100);
   border-radius: var(--border-radius);
 }
 
-p.read {
-  font-weight: 800;
-}
-
-p.unread {
-  font-style: italic;
+/* read/unread status icon & word */
+.card .fa-regular.fa-square-check,
+.card .fa-regular.fa-square {
+  padding-left: 0;
 }
 
 .readStatusContainer {
   display: flex;
   align-items: center;
   margin-right: auto;
+
+  color: var(--clr-neutral-800);
+  transition: color 0.15s ease-in-out;
 
   cursor: pointer;
 }
@@ -209,8 +221,14 @@ p.unread {
   color: var(--clr-accent-100);
   background: none;
 
+  transition: color 0.15s ease-in-out;
+
   border: none;
   border-radius: none;
+}
+
+p.read {
+  font-weight: 800;
 }
 
 /*
@@ -351,7 +369,8 @@ footer i {
   font-size: 1.5em;
 }
 
-a:hover {
+a:hover,
+a:focus {
   color: var(--clr-neutral-100);
   transition: all 0.25s ease-in-out;
 }
