@@ -95,9 +95,10 @@ function displayAllBooks() {
     book.cardTitle = document.createElement("h2");
     book.cardAuthor = document.createElement("p");
     book.cardPages = document.createElement("p");
-    book.cardReadStatus = document.createElement("div");
     book.cardIconContainer = document.createElement("div");
+    book.cardReadStatusContainer = document.createElement("div");
     book.cardReadStatusIcon = document.createElement("i");
+    book.cardReadStatus = document.createElement("p");
     book.cardDeleteIcon = document.createElement("i");
     book.cardEditIcon = document.createElement("i");
 
@@ -125,8 +126,11 @@ function displayAllBooks() {
 
     // Assemble Icon Container Div (Edit & Del icons)
     book.cardIconContainer.classList.add("card-icon-container");
-    book.cardIconContainer.appendChild(book.cardReadStatusIcon);
-    book.cardIconContainer.appendChild(book.cardReadStatus);
+
+    book.cardReadStatusContainer.appendChild(book.cardReadStatusIcon);
+    book.cardReadStatusContainer.appendChild(book.cardReadStatus);
+    book.cardReadStatusContainer.classList.add("readStatusContainer");
+    book.cardIconContainer.appendChild(book.cardReadStatusContainer);
     book.cardIconContainer.appendChild(book.cardEditIcon);
     book.cardIconContainer.appendChild(book.cardDeleteIcon);
 
@@ -148,7 +152,7 @@ function displayAllBooks() {
       book.editBook();
     });
 
-    book.cardReadStatusIcon.addEventListener("click", () => {
+    book.cardReadStatusContainer.addEventListener("click", () => {
       book.toggleReadStatus();
     });
   });

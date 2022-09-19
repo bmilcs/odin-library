@@ -157,19 +157,16 @@ book cards
   --border-hover-size: 0.25em;
 }
 
-.card .read,
-.card .unread {
-  margin-right: auto;
-}
-
 .card .fa-solid,
 .card .fa-regular {
   --icon-padding: 0.35em;
 
   padding: var(--icon-padding);
-  text-align: right;
-  color: var(--clr-neutral-900);
   font-size: 1.25em;
+}
+
+.card .fa-solid {
+  color: var(--clr-neutral-900);
 }
 
 .card .fa-regular.fa-square-check,
@@ -180,30 +177,40 @@ book cards
 .card .fa-solid:hover,
 .card .fa-solid:focus {
   padding: calc(var(--icon-padding) - var(--border-hover-size));
+
   color: var(--clr-neutral-100);
   background: var(--clr-accent-100);
+
   border: var(--border-hover-size) solid var(--clr-accent-100);
   border-radius: var(--border-radius);
 }
 
-.card .fa-square:hover,
-.card .fa-square-check:hover,
-.card .fa-square:focus,
-.card .fa-square-check:focus {
-  color: var(--clr-accent-100);
-  border: none;
-  background: none;
-  border-radius: none;
-  padding: var(--icon-padding);
-  padding-left: 0;
-}
-
-div.read {
+p.read {
   font-weight: 800;
 }
 
-div.unread {
-  color: var(--bg-transparent-900);
+p.unread {
+  font-style: italic;
+}
+
+.readStatusContainer {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+
+  cursor: pointer;
+}
+
+.card .card-icon-container .readStatusContainer:hover,
+.card .card-icon-container .readStatusContainer:focus {
+  padding: var(--icon-padding);
+  padding-left: 0;
+
+  color: var(--clr-accent-100);
+  background: none;
+
+  border: none;
+  border-radius: none;
 }
 
 /*
@@ -213,9 +220,9 @@ Add Book MODAL Pop-up
 section.modal-container {
   display: none;
   position: fixed;
+  top: 0;
   width: 100vw;
   height: 100vh;
-  top: 0;
 
   opacity: 1;
   transition: opacity 0.2s ease-in;
