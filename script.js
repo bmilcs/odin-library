@@ -155,6 +155,11 @@ function displayAllBooks() {
     book.cardReadStatusContainer.addEventListener("click", () => {
       book.toggleReadStatus();
     });
+
+    // Add EventListener on card itself: Double Click => Edit Book
+    book.card.addEventListener("dblclick", () => {
+      book.editBook();
+    });
   });
 }
 
