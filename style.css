@@ -115,7 +115,6 @@ book cards
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
 
-  border: 0.25em solid var(--clr-accent-100);
   border-left: calc(var(--border-radius) + 0.25em) solid var(--clr-accent-100);
 }
 
