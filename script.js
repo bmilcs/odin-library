@@ -232,6 +232,14 @@ document.querySelector(".btn-add-book").addEventListener("click", () => {
 });
 
 //
+// Form Close Icon
+//
+
+document
+  .querySelector(".close-icon")
+  .addEventListener("click", () => hideBookModal());
+
+//
 // Keyboard: Esc to Hide "Add Book" Modal
 //
 

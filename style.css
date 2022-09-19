@@ -269,6 +269,20 @@ div.modal {
   font-weight: 600;
 }
 
+/* close button */
+.modal i {
+  color: var(--clr-neutral-100);
+  font-size: 1.5rem;
+  position: absolute;
+  top: 0.5em;
+  right: 1rem;
+}
+
+.modal i:hover,
+.modal i:focus {
+  color: var(--clr-accent-100);
+}
+
 .modal form {
   padding: 1rem;
 }
