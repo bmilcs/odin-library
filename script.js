@@ -1,17 +1,22 @@
-const modal = document.querySelector(".modal-container"),
+// ui elements
+
+const bookGrid = document.querySelector(".book-grid"),
+  modalContainer = document.querySelector(".modal-container"),
+  modalWindow = document.querySelector("div.modal"),
   form = document.getElementById("modal-form"),
   formTitleBar = document.querySelector(".modal-header"),
   formSubmitBtn = document.querySelector(".modal button"),
   titleInput = document.getElementById("book-title"),
   authorInput = document.getElementById("book-author"),
   pagesInput = document.getElementById("book-page-count"),
-  readStatusInput = document.getElementById("book-read-status"),
-  bookGrid = document.querySelector(".book-grid");
+  readStatusInput = document.getElementById("book-read-status");
 
-// myLibrary: Stores book details, html elements & methods
+// array: stores book objects (details, html elements & methods)
+
 let myLibrary = [];
 
-// Book Object Constructor Function
+// object constructor
+
 function Book(title, author, pages, readStatus) {
   this.title = title;
   this.author = author;
@@ -19,44 +24,121 @@ function Book(title, author, pages, readStatus) {
   this.readStatus = readStatus;
 }
 
-Book.prototype.removeBook = function () {
-  // Delete card element from page
-  this.card.classList.add("fade-out");
-  setTimeout(() => {
-    this.card.remove();
-  }, 200);
+// method: create ui elements for card
 
-  // Find index of book within myLibrary array for removal
-  const bookIndex = myLibrary.findIndex((object) => {
-    return object.title === this.title;
+Book.prototype.createCard = function () {
+  this.card = document.createElement("div");
+  this.cardTitle = document.createElement("h2");
+  this.cardAuthor = document.createElement("p");
+  this.cardPages = document.createElement("p");
+  this.cardIconContainer = document.createElement("div");
+  this.cardReadStatusContainer = document.createElement("div");
+  this.cardReadStatusIcon = document.createElement("i");
+  this.cardReadStatus = document.createElement("p");
+  this.cardDeleteIcon = document.createElement("i");
+  this.cardEditIcon = document.createElement("i");
+
+  // add .card for CSS styling
+  this.card.classList.add("card");
+
+  // populate elements with each key value
+  this.cardTitle.textContent = this.title;
+  this.cardAuthor.textContent = this.author;
+  this.cardPages.textContent = this.pages;
+
+  // convert boolean to human readable format & add icon
+  if (this.readStatus === true) {
+    this.setAsRead();
+  } else {
+    this.setAsUnread();
+  }
+
+  // add font awesome icons: readStatus/edit/delete
+  this.cardDeleteIcon.classList.add("fa-solid");
+  this.cardDeleteIcon.classList.add("fa-trash");
+  this.cardEditIcon.classList.add("fa-pen-to-square");
+  this.cardEditIcon.classList.add("fa-solid");
+  this.cardReadStatusIcon.classList.add("fa-regular");
+
+  // assemble readStatus container: icon & label
+  this.cardReadStatusContainer.appendChild(this.cardReadStatusIcon);
+  this.cardReadStatusContainer.appendChild(this.cardReadStatus);
+  this.cardReadStatusContainer.classList.add("readStatusContainer");
+
+  // assemble icon container
+  this.cardIconContainer.classList.add("card-icon-container");
+  this.cardIconContainer.appendChild(this.cardReadStatusContainer);
+  this.cardIconContainer.appendChild(this.cardEditIcon);
+  this.cardIconContainer.appendChild(this.cardDeleteIcon);
+
+  // assemble final card
+  this.card.appendChild(this.cardTitle);
+  this.card.appendChild(this.cardAuthor);
+  this.card.appendChild(this.cardPages);
+  this.card.appendChild(this.cardIconContainer);
+
+  // display card on page
+  bookGrid.appendChild(this.card);
+
+  // click events for icons on the card: edit/delete/readStatus
+  this.cardDeleteIcon.addEventListener("click", () => {
+    this.removeBook();
   });
 
-  // Remove the book from the array
-  myLibrary.splice(bookIndex, 1);
+  this.cardEditIcon.addEventListener("click", () => {
+    this.editBook();
+  });
+
+  this.cardReadStatusContainer.addEventListener("click", () => {
+    this.toggleReadStatus();
+  });
+
+  // double click on card: edit book
+  this.card.addEventListener("dblclick", () => {
+    this.editBook();
+  });
 };
 
+// method: launches form to edit book details
+
 Book.prototype.editBook = function () {
-  // update titlebar & button labels on the form
-  formTitleBar.textContent = `Edit Book #${this.index + 1}`;
+  // update title bar & button label
+  formTitleBar.textContent = `Edit Book #${this.id + 1}`;
   formSubmitBtn.textContent = "Update Book";
 
-  // populate form with field values
+  // populate form with book details
   titleInput.value = this.title;
   authorInput.value = this.author;
   pagesInput.value = this.pages;
+
   this.readStatus === true
     ? (readStatusInput.checked = true)
     : (readStatusInput.checked = false);
 
-  // show form modal
-  showBookModal();
+  showForm();
 };
 
-Book.prototype.toggleReadStatus = function () {
-  this.readStatus = !this.readStatus;
-  if (this.readStatus) this.setAsRead();
-  else this.setAsUnread();
+// method: remove card element from page & book obj from array
+
+Book.prototype.removeBook = function () {
+  // animate card
+  this.card.classList.add("fade-out");
+
+  // remove card after animation
+  setTimeout(() => {
+    this.card.remove();
+  }, 250);
+
+  // locate book within myLibrary array
+  const bookIndex = myLibrary.findIndex((book) => {
+    return book.title === this.title;
+  });
+
+  // remove book from array
+  myLibrary.splice(bookIndex, 1);
 };
+
+// method: swap icon & text to "read"
 
 Book.prototype.setAsRead = function () {
   this.cardReadStatusIcon.classList.remove("fa-square");
@@ -66,6 +148,8 @@ Book.prototype.setAsRead = function () {
   this.cardReadStatus.textContent = "Read";
 };
 
+// method: swap icon & text to "unread"
+
 Book.prototype.setAsUnread = function () {
   this.cardReadStatusIcon.classList.remove("fa-square-check");
   this.cardReadStatusIcon.classList.add("fa-square");
@@ -74,235 +158,160 @@ Book.prototype.setAsUnread = function () {
   this.cardReadStatus.textContent = "Unread";
 };
 
-function addBookToLibrary(title, author, pages, readStatus) {
+// method: toggle read status (read/unread)
+
+Book.prototype.toggleReadStatus = function () {
+  this.readStatus = !this.readStatus;
+  this.readStatus ? this.setAsRead() : this.setAsUnread();
+};
+
+// method: update book details from edit form pop-up
+
+Book.prototype.updateBook = function () {
+  // update card html elements & book object from the form values
+  this.cardTitle.textContent = this.title = titleInput.value;
+  this.cardAuthor.textContent = this.author = authorInput.value;
+  this.cardPages.textContent = this.pages = pagesInput.value;
+
+  if (readStatusInput.checked) {
+    this.readStatus = true;
+    this.setAsRead();
+  } else {
+    this.readStatus = false;
+    this.setAsUnread();
+  }
+};
+
+// function: triggered on form submit
+
+function addBook(title, author, pages, readStatus) {
   myLibrary.push(new Book(title, author, pages, readStatus));
 }
 
+// function: called when a new book is added
+
 function displayAllBooks() {
-  // Loop through array & display each book on the page
   myLibrary.forEach((book, i) => {
-    // If card has already been created, skip iteration
+    // if card exists, skip iteration
     if (book.existsOnPage) return;
 
-    // Prevent duplicates from being added on next iteration
+    // prevent from being duplicated on future iterations
     book.existsOnPage = 1;
 
-    // Set book iteration as index so edit book button can find the object
-    book.index = i;
+    // set id so "edit form" can find book within myLibrary array
+    book.id = i;
 
-    // Create elements for each book key:value pair
-    book.card = document.createElement("div");
-    book.cardTitle = document.createElement("h2");
-    book.cardAuthor = document.createElement("p");
-    book.cardPages = document.createElement("p");
-    book.cardIconContainer = document.createElement("div");
-    book.cardReadStatusContainer = document.createElement("div");
-    book.cardReadStatusIcon = document.createElement("i");
-    book.cardReadStatus = document.createElement("p");
-    book.cardDeleteIcon = document.createElement("i");
-    book.cardEditIcon = document.createElement("i");
-
-    // Add .card for CSS styling
-    book.card.classList.add("card");
-
-    // Populate newly created elements with each key value
-    book.cardTitle.textContent = book.title;
-    book.cardAuthor.textContent = book.author;
-    book.cardPages.textContent = book.pages;
-
-    // Convert boolean to human readable format & add icon
-    if (book.readStatus === true) {
-      book.setAsRead();
-    } else {
-      book.setAsUnread();
-    }
-
-    // Add readstatus, edit, delete icons from Font Awesome library
-    book.cardDeleteIcon.classList.add("fa-solid");
-    book.cardDeleteIcon.classList.add("fa-trash");
-    book.cardEditIcon.classList.add("fa-pen-to-square");
-    book.cardEditIcon.classList.add("fa-solid");
-    book.cardReadStatusIcon.classList.add("fa-regular");
-
-    // Assemble Icon Container Div (Edit & Del icons)
-    book.cardIconContainer.classList.add("card-icon-container");
-
-    book.cardReadStatusContainer.appendChild(book.cardReadStatusIcon);
-    book.cardReadStatusContainer.appendChild(book.cardReadStatus);
-    book.cardReadStatusContainer.classList.add("readStatusContainer");
-    book.cardIconContainer.appendChild(book.cardReadStatusContainer);
-    book.cardIconContainer.appendChild(book.cardEditIcon);
-    book.cardIconContainer.appendChild(book.cardDeleteIcon);
-
-    // Assemble final card
-    book.card.appendChild(book.cardTitle);
-    book.card.appendChild(book.cardAuthor);
-    book.card.appendChild(book.cardPages);
-    book.card.appendChild(book.cardIconContainer);
-
-    // Add card to body
-    bookGrid.appendChild(book.card);
-
-    // Add EventListeners to Read Status, Delete, Edit icons
-    book.cardDeleteIcon.addEventListener("click", () => {
-      book.removeBook();
-    });
-
-    book.cardEditIcon.addEventListener("click", () => {
-      book.editBook();
-    });
-
-    book.cardReadStatusContainer.addEventListener("click", () => {
-      book.toggleReadStatus();
-    });
-
-    // Add EventListener on card itself: Double Click => Edit Book
-    book.card.addEventListener("dblclick", () => {
-      book.editBook();
-    });
+    book.createCard();
   });
 }
 
-//
-// Modal Form Submission: Add or Edit Book & Display on the page
-//
+// functions: form related
+
+function clearForm() {
+  titleInput.value = "";
+  authorInput.value = "";
+  pagesInput.value = "";
+  readStatusInput.checked = false;
+}
+
+function hideForm() {
+  // animate
+  modalContainer.classList.add("hidden");
+  setTimeout(() => {
+    modalContainer.style.display = "none";
+  }, 200);
+}
+
+function showForm() {
+  modalContainer.style.display = "block";
+  // work-around: fade-in effect was not working without this timeout
+  setTimeout(() => {
+    modalContainer.classList.remove("hidden");
+  }, 1);
+  titleInput.focus();
+}
+
+// form submission: called on add/edit book
 
 form.addEventListener("submit", (e) => {
   // prevent form submission
   e.preventDefault();
 
   if (formTitleBar.textContent == "Add Book to Library") {
-    // add a new book
-
     // append values to myLibrary array
-    addBookToLibrary(
+    addBook(
       titleInput.value,
       authorInput.value,
       pagesInput.value,
       readStatusInput.checked
     );
-
-    // create cards & display it to the page
     displayAllBooks();
   } else {
     // edit an existing book
-
-    // get index value from titlebar of form
-    const bookID = formTitleBar.textContent.split("#")[1] - 1;
-    const thisBook = myLibrary[bookID];
-
-    // update object & card values
-    thisBook.cardTitle.textContent = thisBook.title = titleInput.value;
-    thisBook.cardAuthor.textContent = thisBook.author = authorInput.value;
-    thisBook.cardPages.textContent = thisBook.pages = pagesInput.value;
-
-    if (readStatusInput.checked) {
-      thisBook.readStatus = true;
-      thisBook.setAsRead();
-    } else {
-      thisBook.readStatus = false;
-      thisBook.setAsUnread();
-    }
+    // get book's id within the myLibrary object via titlebar of form
+    const id = formTitleBar.textContent.split("#")[1] - 1;
+    myLibrary[id].updateBook();
   }
 
-  // hide add book modal popup
-  hideBookModal();
-
-  // clear form values
-  clearFormValues();
+  hideForm();
+  clearForm();
 });
 
-//
-// Clear all values inputted into the form
-//
-
-function clearFormValues() {
-  // loop through inputs & clear their values
-  const inputArray = Array.from(form.querySelectorAll("input"));
-
-  inputArray.forEach((input) => {
-    input.type === "checkbox" ? (input.checked = false) : (input.value = "");
-  });
-}
-
-//
-// Header Button: Add Book > Shows Modal
-//
+// header: add book button
 
 document.querySelector(".btn-add-book").addEventListener("click", () => {
-  // This form doubles as the Edit Book form
   formTitleBar.textContent = "Add Book to Library";
   formSubmitBtn.textContent = "Add Book";
-  showBookModal();
+  showForm();
 });
 
-//
-// Form Close Icon
-//
+// close form: clicking x icon
 
 document
   .querySelector(".close-icon")
-  .addEventListener("click", () => hideBookModal());
+  .addEventListener("click", () => hideForm());
 
-//
-// Keyboard: Esc to Hide "Add Book" Modal
-//
+// close form: esc on keyboard
 
 window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") hideBookModal();
+  if (e.key === "Escape") hideForm();
 });
 
-//
-// Hide & Show Book Modal Functions
-//
+// close form: clicking outside of the form
 
-function hideBookModal() {
-  modal.classList.add("hidden");
-  setTimeout(() => {
-    modal.style.display = "none";
-  }, 200);
-}
+modalContainer.addEventListener("click", () => {
+  hideForm();
+});
 
-function showBookModal() {
-  modal.style.display = "block";
-  // Fade-in effect was not working unless a minimal timeout is set
-  setTimeout(() => {
-    modal.classList.remove("hidden");
-  }, 1);
-  titleInput.focus();
-}
+modalWindow.addEventListener("click", (e) => {
+  // prevent hiding the form when the form window is clicked
+  e.stopPropagation();
+});
 
-//
-// Sample data: Testing purposes
-//
+// sample data
 
-addBookToLibrary(
+addBook(
   "The Oz Principle",
   "Roger Connors, Tom Smith, Craig Hickman",
   232,
   true
 );
-addBookToLibrary("Atomic Habits", "James Clear", 320, false);
-addBookToLibrary("12 Rules for Life", "Jordan B. Peterson", 448, true);
-addBookToLibrary(
+
+addBook("Atomic Habits", "James Clear", 320, false);
+
+addBook("12 Rules for Life", "Jordan B. Peterson", 448, true);
+
+addBook(
   "The 7 Habits of Highly Effective People",
   "Stephen R. Covey",
   381,
   true
 );
-addBookToLibrary(
-  "How to Win Friends & Influence People",
-  "Dale Carnegie",
-  288,
-  true
-);
-addBookToLibrary(
-  "The Subtle Art of Not Giving a F*ck",
-  "Mark Manson",
-  224,
-  true
-);
-addBookToLibrary("The Total Money Makeover", "Dave Ramsey", 237, true);
-addBookToLibrary("Financial Peace", "Dave Ramsey", 288, true);
+
+addBook("How to Win Friends & Influence People", "Dale Carnegie", 288, true);
+
+addBook("The Total Money Makeover", "Dave Ramsey", 237, true);
+
+addBook("Financial Peace", "Dave Ramsey", 288, true);
 
 displayAllBooks();
