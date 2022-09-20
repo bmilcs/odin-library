@@ -22,7 +22,7 @@ I covered my UI/UX bases through subtle animations and by adding a variety of in
   - ESC key
   - Clicking outside of the form
 
-All in all, this was a great introduction to Object & Object Constructors as a design pattern.
+All in all, this was a great introduction to Object & Object Constructors as a design pattern, the FontAwesome library and the `normalize.css` CSS reset.
 
 Note: Prototypal inheritance & the `Object.create()` method weren't necessary due to the scope of the project.
 
