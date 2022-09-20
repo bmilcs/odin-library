@@ -405,6 +405,14 @@ i {
 }
 
 .fade-out {
-  opacity: 0;
-  transition: opacity 0.2s ease-out;
+  animation: visible 0.5s;
+}
+
+@keyframes visible {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
