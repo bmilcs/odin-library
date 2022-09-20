@@ -10,7 +10,7 @@ Welcome to Bryan Miller's Library Project, the [eighth assignment](https://www.t
 
 ## Summary
 
-The `Book` constructor function and methods defined on the its prototype (`.createCard()`, `editBook()` `removeBook()`, `.toggleReadStatus()`, etc.) perform the bulk of the work. Each instance of the `Book` object contains the book information, methods that allow you to manipulate them and its html elements that display on the page.
+The `Book` constructor function and methods defined on the its prototype (`.createCard()`, `editBook()` `removeBook()`, `.toggleReadStatus()`, etc.) perform the bulk of the work. Each instance of the `Book` object contains the book information, methods that allow you to manipulate it and the html elements that display on the page.
 
 I covered my UI/UX bases through subtle animations and by adding a variety of input methods:
 
