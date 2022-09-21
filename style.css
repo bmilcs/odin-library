@@ -38,8 +38,10 @@ body {
   height: 100vh;
 }
 
-/* 
+/*
+
 header
+
 */
 
 header {
@@ -58,6 +60,7 @@ header {
 }
 
 /* add book button */
+
 header > button {
   color: var(--clr-neutral-900);
   background: var(--clr-neutral-100);
@@ -73,7 +76,9 @@ header > button:hover {
 }
 
 /*
+
 book section / grid
+
 */
 
 .book-section {
@@ -95,7 +100,9 @@ book section / grid
 }
 
 /*
+
 book cards
+
 */
 
 .card {
@@ -124,6 +131,8 @@ book cards
   transition: scale 0.15s ease-in-out;
 }
 
+/* book title */
+
 .card > h2 {
   position: relative;
 
@@ -138,25 +147,18 @@ book cards
   z-index: 1;
 }
 
-/* author */
-/* .card > p:first-of-type {
-  font-style: italic;
-} */
+/* page count */
 
 .card > p:last-of-type {
-  margin-top: 1em;
+  margin-block: 1em;
   font-size: 0.85em;
 }
 
-/* page count */
-.card p + p {
-  margin-bottom: 1rem;
-}
-
-/* page count  */
 .card h2 + p + p::after {
   content: " Pages";
 }
+
+/* card icons: read status, edit, delete */
 
 .card .card-icon-container {
   margin-top: auto;
@@ -165,17 +167,21 @@ book cards
   justify-content: end;
   align-items: center;
 
+  /* this is used to offset the hover effect. 
+     without it, the card grows & shifts on hover. */
   --border-hover-size: 0.25em;
+  --icon-padding: 0.35em;
 }
+
+/* all icons */
 
 .card .fa-solid,
 .card .fa-regular {
-  /* this is used to offset the hover effect. without it, the card grows & shifts on hover. */
-  --icon-padding: 0.35em;
   padding: var(--icon-padding);
-
   font-size: 1.25em;
 }
+
+/* delete / edit icons  */
 
 .card .fa-solid {
   color: var(--clr-neutral-800);
@@ -195,11 +201,14 @@ book cards
   border-radius: var(--border-radius);
 }
 
-/* read/unread status icon & word */
+/* read/unread status icon */
+
 .card .fa-regular.fa-square-check,
 .card .fa-regular.fa-square {
   padding-left: 0;
 }
+
+/* read status container (contains: icon & read/unread label) */
 
 .readStatusContainer {
   display: flex;
@@ -230,9 +239,28 @@ p.read {
   font-weight: 800;
 }
 
+/* card fade-out on deletion  */
+
+.fade-out {
+  animation: visible 0.5s;
+}
+
+@keyframes visible {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 /*
-Add Book MODAL Pop-up
+
+add book pop-up / modal 
+
 */
+
+/* overlay / transparent background */
 
 section.modal-container {
   display: none;
@@ -255,6 +283,8 @@ section.modal-container.hidden {
   transition: opacity 0.2s ease-out;
 }
 
+/* form window w/ button & titlebar  */
+
 div.modal {
   position: fixed;
   display: fixed;
@@ -271,6 +301,7 @@ div.modal {
 }
 
 /* modal title bar */
+
 .modal-header {
   display: flex;
   align-items: center;
@@ -286,7 +317,8 @@ div.modal {
   font-weight: 600;
 }
 
-/* close button */
+/* close button on title bar */
+
 .modal i {
   color: var(--clr-neutral-100);
   font-size: 1.5rem;
@@ -299,6 +331,8 @@ div.modal {
 .modal i:focus {
   color: var(--clr-accent-100);
 }
+
+/* modal form  */
 
 .modal form {
   padding: 1rem;
@@ -349,7 +383,9 @@ input::placeholder {
 }
 
 /*
-footer
+
+page footer / github link
+
 */
 
 footer {
@@ -383,8 +419,10 @@ a {
   color: var(--clr-neutral-900);
 }
 
-/*
+/* 
+
 global properties
+
 */
 
 button {
@@ -402,17 +440,4 @@ p {
 
 i {
   cursor: pointer;
-}
-
-.fade-out {
-  animation: visible 0.5s;
-}
-
-@keyframes visible {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
 }
