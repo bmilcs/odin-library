@@ -220,6 +220,7 @@ function hideForm() {
   setTimeout(() => {
     modalContainer.style.display = "none";
   }, 200);
+  clearForm();
 }
 
 function showForm() {
@@ -254,7 +255,6 @@ form.addEventListener("submit", (e) => {
   }
 
   hideForm();
-  clearForm();
 });
 
 // header: add book button
