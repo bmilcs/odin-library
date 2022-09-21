@@ -215,7 +215,7 @@ function clearForm() {
 }
 
 function hideForm() {
-  // animate
+  // animate: fade out effect
   modalContainer.classList.add("hidden");
   setTimeout(() => {
     modalContainer.style.display = "none";
@@ -279,14 +279,11 @@ window.addEventListener("keydown", (e) => {
 
 // close form: clicking outside of the form
 
-modalContainer.addEventListener("click", () => {
-  hideForm();
-});
+modalContainer.addEventListener("click", () => hideForm());
 
-modalWindow.addEventListener("click", (e) => {
-  // prevent hiding the form when the form window is clicked
-  e.stopPropagation();
-});
+// prevent hiding the form when the form window is clicked
+
+modalWindow.addEventListener("click", (e) => e.stopPropagation());
 
 // sample data
 
@@ -297,16 +294,16 @@ addBook(
   true
 );
 
-addBook("Atomic Habits", "James Clear", 320, false);
-
-addBook("12 Rules for Life", "Jordan B. Peterson", 448, true);
-
 addBook(
   "The 7 Habits of Highly Effective People",
   "Stephen R. Covey",
   381,
   true
 );
+
+addBook("Atomic Habits", "James Clear", 320, false);
+
+addBook("12 Rules for Life", "Jordan B. Peterson", 448, true);
 
 addBook("How to Win Friends & Influence People", "Dale Carnegie", 288, true);
 
