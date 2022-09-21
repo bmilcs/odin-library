@@ -136,6 +136,9 @@ Book.prototype.removeBook = function () {
 
   // remove book from array
   myLibrary.splice(bookIndex, 1);
+
+  // update id of all books
+  myLibrary.forEach((book, i) => (book.id = i));
 };
 
 // method: swap icon & text to "read"
