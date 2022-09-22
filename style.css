@@ -109,6 +109,9 @@ book cards
   display: flex;
   flex-direction: column;
 
+  /* tooltip */
+  position: relative;
+
   scale: 0.95;
   transition: scale 0.15s ease-in-out;
 
@@ -129,6 +132,34 @@ book cards
 .card:hover {
   scale: 1;
   transition: scale 0.15s ease-in-out;
+}
+
+/* tooltip: double click to edit */
+
+.card::after {
+  content: "Double click to edit book details.";
+  position: absolute;
+  top: -1.5rem;
+  left: 0;
+
+  /* display: none; */
+  opacity: 0;
+  z-index: 1;
+
+  padding: 0.25em 1em;
+  border-radius: 1em;
+
+  /* background: var(--clr-accent-100); */
+  color: var(--clr-neutral-100);
+
+  font-size: 0.85em;
+  text-shadow: var(--box-shadow);
+}
+
+.card:hover::after {
+  display: block;
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
 }
 
 /* book title */
@@ -294,6 +325,8 @@ div.modal {
   top: 50%;
   transform: translate(-50%, -50%);
 
+  width: min(90%, 450px);
+
   padding: 0;
   margin: 0;
 
@@ -354,6 +387,10 @@ div.modal {
 
   border-radius: var(--border-radius);
   border: 1px solid var(--bg-transparent-100);
+}
+
+.modal input:not(.checkbox) {
+  width: 100%;
 }
 
 .modal input[type="number"] {
