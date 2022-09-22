@@ -97,9 +97,7 @@ Book.prototype.removeBook = function () {
   }, 250);
 
   // locate book within myLibrary array
-  const bookIndex = myLibrary.findIndex((book) => {
-    return book.title === this.title;
-  });
+  const bookIndex = myLibrary.findIndex((book) => book.title === this.title);
 
   // remove book from array
   myLibrary.splice(bookIndex, 1);
@@ -150,6 +148,7 @@ const formTitleBar = document.querySelector(".modal-header"),
 
 Book.prototype.editBook = function () {
   // update title bar & button label of form
+  // this.id is used by edit book form to locate the obj's index within myLibrary array on form submission
   formTitleBar.textContent = `Edit Book #${this.id + 1}`;
   formSubmitBtn.textContent = "Update Book";
 
@@ -225,7 +224,8 @@ document.getElementById("modal-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
   if (formTitleBar.textContent == "Add Book to Library") {
-    // append values to myLibrary array
+    // create a new book object and append it to myLibrary array
+    // .createCard() is called in the constructor function, displaying it to the page
     addBook(
       titleInput.value,
       authorInput.value,
@@ -234,7 +234,8 @@ document.getElementById("modal-form").addEventListener("submit", (e) => {
     );
   } else {
     // edit an existing book: when the form is launched in "edit book" mode,
-    // it adds the id of the book to the title bar --- id = index of book in myLibrary array + 1
+    // the id of the book is added to the title bar --- id = index of book obj in myLibrary array + 1
+    // why +1? "Book #0" looks ugly for the end user
     const id = formTitleBar.textContent.split("#")[1] - 1;
     myLibrary[id].updateBook();
   }
