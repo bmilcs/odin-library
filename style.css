@@ -170,13 +170,14 @@ book cards
   /* this is used to offset the hover effect. 
      without it, the card grows & shifts on hover. */
   --border-hover-size: 0.25em;
-  --icon-padding: 0.35em;
 }
 
 /* all icons */
 
 .card .fa-solid,
 .card .fa-regular {
+  /* this is used to offset the hover effect. without it, the card grows & shifts on hover. */
+  --icon-padding: 0.35em;
   padding: var(--icon-padding);
   font-size: 1.25em;
 }
