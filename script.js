@@ -40,11 +40,11 @@ Book.prototype.createCard = function () {
   this.readStatus ? this.setAsRead() : this.setAsUnread();
 
   // add font awesome icons: readStatus/edit/delete
-  this.cardDeleteIcon.classList.add("fa-solid");
-  this.cardDeleteIcon.classList.add("fa-trash");
+  this.cardReadStatusIcon.classList.add("fa-regular");
   this.cardEditIcon.classList.add("fa-pen-to-square");
   this.cardEditIcon.classList.add("fa-solid");
-  this.cardReadStatusIcon.classList.add("fa-regular");
+  this.cardDeleteIcon.classList.add("fa-solid");
+  this.cardDeleteIcon.classList.add("fa-trash");
 
   // assemble readStatus container: icon & label
   this.cardReadStatusContainer.appendChild(this.cardReadStatusIcon);
@@ -111,21 +111,23 @@ Book.prototype.removeBook = function () {
 // method: swap icon & text to "read"
 
 Book.prototype.setAsRead = function () {
-  this.cardReadStatusIcon.classList.remove("fa-square");
-  this.cardReadStatusIcon.classList.add("fa-square-check");
+  this.readStatus = true;
+  this.cardReadStatus.textContent = "Read";
   this.cardReadStatus.classList.remove("unread");
   this.cardReadStatus.classList.add("read");
-  this.cardReadStatus.textContent = "Read";
+  this.cardReadStatusIcon.classList.remove("fa-square");
+  this.cardReadStatusIcon.classList.add("fa-square-check");
 };
 
 // method: swap icon & text to "unread"
 
 Book.prototype.setAsUnread = function () {
-  this.cardReadStatusIcon.classList.remove("fa-square-check");
-  this.cardReadStatusIcon.classList.add("fa-square");
+  this.readStatus = false;
+  this.cardReadStatus.textContent = "Unread";
   this.cardReadStatus.classList.remove("read");
   this.cardReadStatus.classList.add("unread");
-  this.cardReadStatus.textContent = "Unread";
+  this.cardReadStatusIcon.classList.remove("fa-square-check");
+  this.cardReadStatusIcon.classList.add("fa-square");
 };
 
 // method: toggle read status (read/unread)
@@ -145,12 +147,13 @@ const formTitleBar = document.querySelector(".modal-header"),
   readStatusInput = document.getElementById("book-read-status");
 
 // method: launches form to edit book details
+
 Book.prototype.editBook = function () {
-  // update title bar & button label
+  // update title bar & button label of form
   formTitleBar.textContent = `Edit Book #${this.id + 1}`;
   formSubmitBtn.textContent = "Update Book";
 
-  // populate form with book details
+  // populate form inputs with book details
   titleInput.value = this.title;
   authorInput.value = this.author;
   pagesInput.value = this.pages;
@@ -176,22 +179,23 @@ Book.prototype.updateBook = function () {
   this.cardPages.textContent = pagesInput.value;
 
   // update readStatus: book object, font awesome icon & label
-  if (readStatusInput.checked) {
-    this.readStatus = true;
-    this.setAsRead();
-  } else {
-    this.readStatus = false;
-    this.setAsUnread();
-  }
+  readStatusInput.checked ? this.setAsRead() : this.setAsUnread();
 };
 
-// function: triggered on form submit
+// function: triggered on add book form submit
 
 function addBook(title, author, pages, readStatus) {
   myLibrary.push(new Book(title, author, pages, readStatus));
 }
 
 // functions: form related
+
+function clearForm() {
+  titleInput.value = "";
+  authorInput.value = "";
+  pagesInput.value = "";
+  readStatusInput.checked = false;
+}
 
 const modalContainer = document.querySelector(".modal-container");
 
@@ -214,13 +218,6 @@ function showForm() {
   titleInput.focus();
 }
 
-function clearForm() {
-  titleInput.value = "";
-  authorInput.value = "";
-  pagesInput.value = "";
-  readStatusInput.checked = false;
-}
-
 // form submission: called on add/edit book
 
 document.getElementById("modal-form").addEventListener("submit", (e) => {
@@ -236,8 +233,8 @@ document.getElementById("modal-form").addEventListener("submit", (e) => {
       readStatusInput.checked
     );
   } else {
-    // edit an existing book
-    // get book's id within the myLibrary object via titlebar of form
+    // edit an existing book: when the form is launched in "edit book" mode,
+    // it adds the id of the book to the title bar --- id = index of book in myLibrary array + 1
     const id = formTitleBar.textContent.split("#")[1] - 1;
     myLibrary[id].updateBook();
   }
@@ -255,9 +252,7 @@ document.querySelector(".btn-add-book").addEventListener("click", () => {
 
 // close form: clicking x icon
 
-document
-  .querySelector(".close-icon")
-  .addEventListener("click", () => hideForm());
+document.querySelector(".close-icon").addEventListener("click", hideForm);
 
 // close form: esc on keyboard
 
@@ -267,7 +262,7 @@ window.addEventListener("keydown", (e) => {
 
 // close form: click on dark overlay / outside of the form
 
-modalContainer.addEventListener("click", () => hideForm());
+modalContainer.addEventListener("click", hideForm);
 
 // prevent closing form: when the form itself is clicked
 
