@@ -2,184 +2,184 @@
 
 let myLibrary = [];
 
-// object constructor
+class Book {
+  constructor(title, author, pages, readStatus) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.readStatus = readStatus;
 
-function Book(title, author, pages, readStatus) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.readStatus = readStatus;
-  this.id = myLibrary.length;
+    this.id = myLibrary.length;
+    this.createCard();
+  }
 
-  this.createCard();
+  // method: create ui elements for card
+
+  createCard() {
+    this.card = document.createElement("div");
+    this.cardTitle = document.createElement("h2");
+    this.cardAuthor = document.createElement("p");
+    this.cardPages = document.createElement("p");
+    this.cardIconContainer = document.createElement("div");
+    this.cardReadStatusContainer = document.createElement("div");
+    this.cardReadStatusIcon = document.createElement("i");
+    this.cardReadStatus = document.createElement("p");
+    this.cardDeleteIcon = document.createElement("i");
+    this.cardEditIcon = document.createElement("i");
+
+    // add .card for CSS styling
+    this.card.classList.add("card");
+
+    // populate elements with each key value
+    this.cardTitle.textContent = this.title;
+    this.cardAuthor.textContent = this.author;
+    this.cardPages.textContent = this.pages;
+
+    // convert boolean to human readable format & add icon
+    this.readStatus ? this.setAsRead() : this.setAsUnread();
+
+    // add font awesome icons: readStatus/edit/delete
+    this.cardReadStatusIcon.classList.add("fa-regular");
+    this.cardEditIcon.classList.add("fa-pen-to-square");
+    this.cardEditIcon.classList.add("fa-solid");
+    this.cardDeleteIcon.classList.add("fa-solid");
+    this.cardDeleteIcon.classList.add("fa-trash");
+
+    // assemble readStatus container: icon & label
+    this.cardReadStatusContainer.appendChild(this.cardReadStatusIcon);
+    this.cardReadStatusContainer.appendChild(this.cardReadStatus);
+    this.cardReadStatusContainer.classList.add("readStatusContainer");
+
+    // assemble icon container
+    this.cardIconContainer.classList.add("card-icon-container");
+    this.cardIconContainer.appendChild(this.cardReadStatusContainer);
+    this.cardIconContainer.appendChild(this.cardEditIcon);
+    this.cardIconContainer.appendChild(this.cardDeleteIcon);
+
+    // assemble final card
+    this.card.appendChild(this.cardTitle);
+    this.card.appendChild(this.cardAuthor);
+    this.card.appendChild(this.cardPages);
+    this.card.appendChild(this.cardIconContainer);
+
+    // display card on page
+    document.querySelector(".book-grid").appendChild(this.card);
+
+    // click events for icons on the card: edit/delete/readStatus
+    this.cardDeleteIcon.addEventListener("click", () => {
+      this.removeBook();
+    });
+
+    this.cardEditIcon.addEventListener("click", () => {
+      this.editBook();
+    });
+
+    this.cardReadStatusContainer.addEventListener("click", () => {
+      this.toggleReadStatus();
+    });
+
+    // double click on card: edit book
+    this.card.addEventListener("dblclick", () => {
+      this.editBook();
+    });
+  }
+
+  // method: remove card element from page & book obj from array
+
+  removeBook() {
+    // animate card
+    this.card.classList.add("fade-out");
+
+    // remove card after animation
+    setTimeout(() => {
+      this.card.remove();
+    }, 250);
+
+    // locate book within myLibrary array
+    const bookIndex = myLibrary.findIndex((book) => book.title === this.title);
+
+    // remove book from array
+    myLibrary.splice(bookIndex, 1);
+
+    // update id of all books
+    myLibrary.forEach((book, i) => (book.id = i));
+  }
+
+  // method: swap icon & text to "read"
+
+  setAsRead() {
+    this.readStatus = true;
+    this.cardReadStatus.textContent = "Read";
+    this.cardReadStatus.classList.remove("unread");
+    this.cardReadStatus.classList.add("read");
+    this.cardReadStatusIcon.classList.remove("fa-square");
+    this.cardReadStatusIcon.classList.add("fa-square-check");
+  }
+
+  // method: swap icon & text to "unread"
+
+  setAsUnread() {
+    this.readStatus = false;
+    this.cardReadStatus.textContent = "Unread";
+    this.cardReadStatus.classList.remove("read");
+    this.cardReadStatus.classList.add("unread");
+    this.cardReadStatusIcon.classList.remove("fa-square-check");
+    this.cardReadStatusIcon.classList.add("fa-square");
+  }
+
+  // method: toggle read status (read/unread)
+
+  toggleReadStatus() {
+    this.readStatus = !this.readStatus;
+    this.readStatus ? this.setAsRead() : this.setAsUnread();
+  }
+
+  // method: launches form to edit book details
+
+  editBook() {
+    // update title bar & button label of form
+    // this.id is used by edit book form to locate the obj's index within myLibrary array on form submission
+    formTitleBar.textContent = `Edit Book #${this.id + 1}`;
+    formSubmitBtn.textContent = "Update Book";
+
+    // populate form inputs with book details
+    titleInput.value = this.title;
+    authorInput.value = this.author;
+    pagesInput.value = this.pages;
+
+    this.readStatus === true
+      ? (readStatusInput.checked = true)
+      : (readStatusInput.checked = false);
+
+    showForm();
+  }
+
+  // method: update book details from edit form pop-up
+
+  updateBook() {
+    // update book object from the form values
+    this.title = titleInput.value;
+    this.author = authorInput.value;
+    this.pages = pagesInput.value;
+
+    // update elements on page
+    this.cardTitle.textContent = titleInput.value;
+    this.cardAuthor.textContent = authorInput.value;
+    this.cardPages.textContent = pagesInput.value;
+
+    // update readStatus: book object, font awesome icon & label
+    readStatusInput.checked ? this.setAsRead() : this.setAsUnread();
+  }
 }
-
-// method: create ui elements for card
-
-Book.prototype.createCard = function () {
-  this.card = document.createElement("div");
-  this.cardTitle = document.createElement("h2");
-  this.cardAuthor = document.createElement("p");
-  this.cardPages = document.createElement("p");
-  this.cardIconContainer = document.createElement("div");
-  this.cardReadStatusContainer = document.createElement("div");
-  this.cardReadStatusIcon = document.createElement("i");
-  this.cardReadStatus = document.createElement("p");
-  this.cardDeleteIcon = document.createElement("i");
-  this.cardEditIcon = document.createElement("i");
-
-  // add .card for CSS styling
-  this.card.classList.add("card");
-
-  // populate elements with each key value
-  this.cardTitle.textContent = this.title;
-  this.cardAuthor.textContent = this.author;
-  this.cardPages.textContent = this.pages;
-
-  // convert boolean to human readable format & add icon
-  this.readStatus ? this.setAsRead() : this.setAsUnread();
-
-  // add font awesome icons: readStatus/edit/delete
-  this.cardReadStatusIcon.classList.add("fa-regular");
-  this.cardEditIcon.classList.add("fa-pen-to-square");
-  this.cardEditIcon.classList.add("fa-solid");
-  this.cardDeleteIcon.classList.add("fa-solid");
-  this.cardDeleteIcon.classList.add("fa-trash");
-
-  // assemble readStatus container: icon & label
-  this.cardReadStatusContainer.appendChild(this.cardReadStatusIcon);
-  this.cardReadStatusContainer.appendChild(this.cardReadStatus);
-  this.cardReadStatusContainer.classList.add("readStatusContainer");
-
-  // assemble icon container
-  this.cardIconContainer.classList.add("card-icon-container");
-  this.cardIconContainer.appendChild(this.cardReadStatusContainer);
-  this.cardIconContainer.appendChild(this.cardEditIcon);
-  this.cardIconContainer.appendChild(this.cardDeleteIcon);
-
-  // assemble final card
-  this.card.appendChild(this.cardTitle);
-  this.card.appendChild(this.cardAuthor);
-  this.card.appendChild(this.cardPages);
-  this.card.appendChild(this.cardIconContainer);
-
-  // display card on page
-  document.querySelector(".book-grid").appendChild(this.card);
-
-  // click events for icons on the card: edit/delete/readStatus
-  this.cardDeleteIcon.addEventListener("click", () => {
-    this.removeBook();
-  });
-
-  this.cardEditIcon.addEventListener("click", () => {
-    this.editBook();
-  });
-
-  this.cardReadStatusContainer.addEventListener("click", () => {
-    this.toggleReadStatus();
-  });
-
-  // double click on card: edit book
-  this.card.addEventListener("dblclick", () => {
-    this.editBook();
-  });
-};
-
-// method: remove card element from page & book obj from array
-
-Book.prototype.removeBook = function () {
-  // animate card
-  this.card.classList.add("fade-out");
-
-  // remove card after animation
-  setTimeout(() => {
-    this.card.remove();
-  }, 250);
-
-  // locate book within myLibrary array
-  const bookIndex = myLibrary.findIndex((book) => book.title === this.title);
-
-  // remove book from array
-  myLibrary.splice(bookIndex, 1);
-
-  // update id of all books
-  myLibrary.forEach((book, i) => (book.id = i));
-};
-
-// method: swap icon & text to "read"
-
-Book.prototype.setAsRead = function () {
-  this.readStatus = true;
-  this.cardReadStatus.textContent = "Read";
-  this.cardReadStatus.classList.remove("unread");
-  this.cardReadStatus.classList.add("read");
-  this.cardReadStatusIcon.classList.remove("fa-square");
-  this.cardReadStatusIcon.classList.add("fa-square-check");
-};
-
-// method: swap icon & text to "unread"
-
-Book.prototype.setAsUnread = function () {
-  this.readStatus = false;
-  this.cardReadStatus.textContent = "Unread";
-  this.cardReadStatus.classList.remove("read");
-  this.cardReadStatus.classList.add("unread");
-  this.cardReadStatusIcon.classList.remove("fa-square-check");
-  this.cardReadStatusIcon.classList.add("fa-square");
-};
-
-// method: toggle read status (read/unread)
-
-Book.prototype.toggleReadStatus = function () {
-  this.readStatus = !this.readStatus;
-  this.readStatus ? this.setAsRead() : this.setAsUnread();
-};
 
 // global variables
 
-const formTitleBar = document.querySelector(".modal-header"),
-  formSubmitBtn = document.querySelector(".modal button"),
-  titleInput = document.getElementById("book-title"),
-  authorInput = document.getElementById("book-author"),
-  pagesInput = document.getElementById("book-page-count"),
-  readStatusInput = document.getElementById("book-read-status");
-
-// method: launches form to edit book details
-
-Book.prototype.editBook = function () {
-  // update title bar & button label of form
-  // this.id is used by edit book form to locate the obj's index within myLibrary array on form submission
-  formTitleBar.textContent = `Edit Book #${this.id + 1}`;
-  formSubmitBtn.textContent = "Update Book";
-
-  // populate form inputs with book details
-  titleInput.value = this.title;
-  authorInput.value = this.author;
-  pagesInput.value = this.pages;
-
-  this.readStatus === true
-    ? (readStatusInput.checked = true)
-    : (readStatusInput.checked = false);
-
-  showForm();
-};
-
-// method: update book details from edit form pop-up
-
-Book.prototype.updateBook = function () {
-  // update book object from the form values
-  this.title = titleInput.value;
-  this.author = authorInput.value;
-  this.pages = pagesInput.value;
-
-  // update elements on page
-  this.cardTitle.textContent = titleInput.value;
-  this.cardAuthor.textContent = authorInput.value;
-  this.cardPages.textContent = pagesInput.value;
-
-  // update readStatus: book object, font awesome icon & label
-  readStatusInput.checked ? this.setAsRead() : this.setAsUnread();
-};
+formTitleBar = document.querySelector(".modal-header");
+formSubmitBtn = document.querySelector(".modal button");
+titleInput = document.getElementById("book-title");
+authorInput = document.getElementById("book-author");
+pagesInput = document.getElementById("book-page-count");
+readStatusInput = document.getElementById("book-read-status");
 
 // function: triggered on add book form submit
 
