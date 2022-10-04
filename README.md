@@ -6,6 +6,7 @@ Welcome to Bryan Miller's Library Project, the [eighth assignment](https://www.t
   - Object & Object Constructor Design Pattern
   - Prototypes
     - Prototype: _a property that all functions have that points to an object_
+  - Refactored to use _classes_
 - HTML / CSS
 
 ## Summary
