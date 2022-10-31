@@ -217,6 +217,31 @@ function showForm() {
   titleInput.focus();
 }
 
+// basic form input validation using constraint api
+
+titleInput.addEventListener("invalid", (e) => {
+  if (titleInput.validity.valueMissing) {
+    titleInput.setCustomValidity("Book title is a required.");
+    titleInput.reportValidity();
+  } else titleInput.setCustomValidity("");
+});
+
+authorInput.addEventListener("invalid", (e) => {
+  if (authorInput.validity.valueMissing) {
+    authorInput.setCustomValidity("Who wrote this book? Author required.");
+    authorInput.reportValidity();
+  } else authorInput.setCustomValidity("");
+});
+
+pagesInput.addEventListener("invalid", (e) => {
+  if (pagesInput.validity.valueMissing) {
+    pagesInput.setCustomValidity(
+      "Annoying question, but how many pages are there in this book?"
+    );
+    pagesInput.reportValidity();
+  } else pagesInput.setCustomValidity("");
+});
+
 // form submission: called on add/edit book
 
 document.getElementById("modal-form").addEventListener("submit", (e) => {
